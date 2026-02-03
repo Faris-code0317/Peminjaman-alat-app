@@ -112,53 +112,53 @@ class PeminjamanAdminController extends Controller
     // ==============================
     // 📌 AJUKAN PEMINJAMAN
     // ==============================
-    public function store(Request $request)
-    {
-        DB::beginTransaction();
+    // public function store(Request $request)
+    // {
+    //     DB::beginTransaction();
 
-        try {
-            $request->validate([
-                'id_user' => 'required|exists:tb_user,id_user',
-                'alat' => 'required|array'
-            ]);
+    //     try {
+    //         $request->validate([
+    //             'id_user' => 'required|exists:tb_user,id_user',
+    //             'alat' => 'required|array'
+    //         ]);
 
-            $peminjaman = Peminjaman::create([
-                'id_user' => $request->id_user,
-                'tanggal_pinjam' => now(),
-                'status' => 'menunggu'
-            ]);
+    //         $peminjaman = Peminjaman::create([
+    //             'id_user' => $request->id_user,
+    //             'tanggal_pinjam' => now(),
+    //             'status' => 'menunggu'
+    //         ]);
 
-            foreach ($request->alat as $item) {
-                DetailPeminjaman::create([
-                    'id_peminjaman' => $peminjaman->id_peminjaman,
-                    'id_alat' => $item['id_alat'],
-                    'jumlah' => $item['jumlah']
-                ]);
-            }
+    //         foreach ($request->alat as $item) {
+    //             DetailPeminjaman::create([
+    //                 'id_peminjaman' => $peminjaman->id_peminjaman,
+    //                 'id_alat' => $item['id_alat'],
+    //                 'jumlah' => $item['jumlah']
+    //             ]);
+    //         }
 
-            // LOG
-            $user = session('user');
-            logAktivitas(
-                $user,
-                'Ajukan peminjaman',
-                'Mengajukan peminjaman ID ' . $peminjaman->id_peminjaman
-            );
+    //         // LOG
+    //         $user = session('user');
+    //         logAktivitas(
+    //             $user,
+    //             'Ajukan peminjaman',
+    //             'Mengajukan peminjaman ID ' . $peminjaman->id_peminjaman
+    //         );
 
-            DB::commit();
+    //         DB::commit();
 
-            return response()->json([
-                'message' => 'Peminjaman berhasil diajukan',
-                'data' => $peminjaman
-            ], 201);
+    //         return response()->json([
+    //             'message' => 'Peminjaman berhasil diajukan',
+    //             'data' => $peminjaman
+    //         ], 201);
 
-        } catch (\Exception $e) {
-            DB::rollBack();
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
 
-            return response()->json([
-                'error' => $e->getMessage()
-            ], 400);
-        }
-    }
+    //         return response()->json([
+    //             'error' => $e->getMessage()
+    //         ], 400);
+    //     }
+    // }
 
     // ==============================
     // 📌 SETUJUI PEMINJAMAN

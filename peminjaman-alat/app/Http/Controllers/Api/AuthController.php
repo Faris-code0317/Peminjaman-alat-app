@@ -1,9 +1,14 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
+
+
 
 class AuthController extends Controller
 {
@@ -14,19 +19,21 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        $user = User::where('username', $request->username)
-            ->where('password', $request->password) // sementara (belum hash)
-            ->first();
+        $user = User::where('username', $request->username)->first();
 
-        if (!$user) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'message' => 'Login gagal'
             ], 401);
         }
 
+        // ⬅️ INI KUNCI API STABIL
+        $token = $user->createToken('api-token')->plainTextToken;
+
         return response()->json([
             'message' => 'Login berhasil',
-            'user' => $user
+            'token'   => $token,
+            'user'    => $user
         ]);
     }
 }

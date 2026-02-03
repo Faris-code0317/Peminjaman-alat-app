@@ -16,11 +16,11 @@ class CheckAdmin
     public function handle($request, Closure $next)
     {
         $user = session('user');
-    
+
         if ($user->role !== 'admin') {
             abort(403, 'Akses ditolak');
         }
-    
+
         return $next($request);
     }
 }

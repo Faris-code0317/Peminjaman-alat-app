@@ -16,11 +16,11 @@ class CheckPetugas
     public function handle($request, Closure $next)
     {
         $user = session('user');
-    
+
         if ($user->role !== 'petugas') {
             abort(403, 'Akses ditolak');
         }
-    
+
         return $next($request);
     }
 }

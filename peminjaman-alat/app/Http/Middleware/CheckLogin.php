@@ -18,7 +18,7 @@ class CheckLogin
         if (!session()->has('user')) {
             return redirect('/login')->with('error', 'Silakan login dulu');
         }
-    
+
         return $next($request);
     }
 

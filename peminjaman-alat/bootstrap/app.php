@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'login'   => CheckLogin::class,
             'admin'   => CheckAdmin::class,
             'petugas' => CheckPetugas::class,
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
         ]);
     })
 

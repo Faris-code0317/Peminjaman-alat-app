@@ -9,6 +9,10 @@ use App\Models\Peminjaman;
 use App\Models\DetailPeminjaman;
 use App\Models\Alat;
 use Carbon\Carbon;
+use App\Models\LogAktivitas;
+use App\Models\User;
+
+
 
 class PeminjamanController extends Controller
 {
@@ -94,8 +98,28 @@ class PeminjamanController extends Controller
                 ]);
             }
 
-            DB::commit();
+          DB::commit();
 
+        // ambil user
+        $user = User::where('id_user', $request->id_user)->first();
+
+        // rangkai nama alat
+        $alatList = collect($request->alat)
+            ->map(function ($item) {
+                $alat = Alat::find($item['id_alat']);
+                return $alat->nama_alat . ' (' . $item['jumlah'] . ')';
+            })
+            ->implode(', ');
+
+        // simpan log
+        LogAktivitas::create([  
+            'id_user'   => $user->id_user,
+            'nama_user' => $user->nama_lengkap,
+            'role'      => $user->role,
+            'aktivitas' => 'Tambah Peminjaman',
+            'keterangan'=> 'Mengajukan peminjaman alat: ' . $alatList,
+            'created_at'=> Carbon::now('Asia/Jakarta')
+        ]);
 
             return response()->json([
                 'message' => 'Peminjaman berhasil dibuat, menunggu persetujuan petugas',
