@@ -49,19 +49,43 @@ class PeminjamanController extends Controller
     // POST pinjam alat
    public function store(Request $request)
     {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
         DB::beginTransaction();
 
         try {
+
             $request->validate([
-                'id_user' => 'required|exists:tb_user,id_user',
                 'alat' => 'required|array',
                 'alat.*.id_alat' => 'required|exists:tb_alat,id_alat',
                 'alat.*.jumlah' => 'required|integer|min:1'
             ]);
 
+            // Validasi Duplikat
+            foreach ($request->alat as $item) {
+                $exists = Peminjaman::where('id_user', $user->id_user)
+                        ->whereIn('status', ['menunggu', 'dipinjam'])
+                        ->whereHas('detail', function ($q) use ($item) {
+                            $q->where('id_alat', $item['id_alat']);
+                        })
+                        ->exists();
+
+                 if ($exists) {
+                 DB::rollBack();
+                 return response()->json([
+                     'success' => false,
+                     'message' => 'Kamu masih memiliki peminjaman aktif untuk alat ini'
+                 ], 400);
+                }
+            }
+
             // 1️⃣ Buat data peminjaman (STATUS MENUNGGU)
             $peminjaman = Peminjaman::create([
-                'id_user' => $request->id_user,
+                'id_user' => $user->id_user,
                 'tanggal_pinjam' => Carbon::now('Asia/Jakarta'),
                 'status' => 'menunggu'
             ]);
@@ -71,23 +95,10 @@ class PeminjamanController extends Controller
                 $alat = Alat::findOrFail($item['id_alat']);
 
                     if ($item['jumlah'] > $alat->stok) {
+                        DB::rollBack();
                         return response()->json([
                             'success' => false,
                             'message' => 'Stok alat tidak mencukupi'
-                        ], 400);
-                    }
-
-                $exists = Peminjaman::where('id_user', $request->id_user)
-                        ->whereIn('status', ['menunggu', 'dipinjam'])
-                        ->whereHas('detail', function ($q) use ($item) {
-                            $q->where('id_alat', $item['id_alat']);
-                        })
-                        ->exists();
-
-                    if ($exists) {
-                        return response()->json([
-                            'success' => false,
-                            'message' => 'Kamu masih memiliki peminjaman aktif untuk alat ini'
                         ], 400);
                     }
 
@@ -98,11 +109,6 @@ class PeminjamanController extends Controller
                 ]);
             }
 
-          DB::commit();
-
-        // ambil user
-        $user = User::where('id_user', $request->id_user)->first();
-
         // rangkai nama alat
         $alatList = collect($request->alat)
             ->map(function ($item) {
@@ -112,7 +118,7 @@ class PeminjamanController extends Controller
             ->implode(', ');
 
         // simpan log
-        LogAktivitas::create([  
+        LogAktivitas::create([
             'id_user'   => $user->id_user,
             'nama_user' => $user->nama_lengkap,
             'role'      => $user->role,
@@ -120,6 +126,8 @@ class PeminjamanController extends Controller
             'keterangan'=> 'Mengajukan peminjaman alat: ' . $alatList,
             'created_at'=> Carbon::now('Asia/Jakarta')
         ]);
+
+            DB::commit();
 
             return response()->json([
                 'message' => 'Peminjaman berhasil dibuat, menunggu persetujuan petugas',

@@ -89,7 +89,11 @@
                         {{ $d->alat->nama_alat ?? '-' }}
                       </td>
                       <td class="align-middle text-center">
+                        @if (ucfirst($p->status === 'dipinjam'))
                             <span class="badge badge-sm bg-gradient-success">{{ ucfirst($p->status) }}</span>
+                        @else
+                            <span class="badge badge-sm bg-gradient-warning">{{ ucfirst($p->status) }}</span>
+                        @endif
                       </td>
                       <td class="text-center">
                         {{ $d->jumlah }}
@@ -100,9 +104,15 @@
                       <td>
                         {{ $p->tanggal_pinjam->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
                       </td>
-                      <td>
-                        {{ $p->tanggal_disetujui->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
-                      </td>
+                        <td class="text-center">
+                            @if ($p->tanggal_disetujui)
+                                {{ $p->tanggal_disetujui
+                                    ->timezone('Asia/Jakarta')
+                                    ->translatedFormat('d F Y (H:i:s)') }}
+                            @else
+                                <span class="text-muted">Belum disetujui</span>
+                            @endif
+                        </td>
                       <td class="align-middle text-center">
                          @foreach ($p->detail as $d)
                             @if ($d->alat && $d->alat->gambar)

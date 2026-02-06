@@ -36,4 +36,35 @@ class AuthController extends Controller
             'user'    => $user
         ]);
     }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'nama_lengkap' => 'required|string|max:100',
+            'username'     => 'required|string|unique:tb_user,username',
+            'password'     => 'required|string|min:6'
+        ]);
+
+        $user = User::create([
+            'nama_lengkap' => $request->nama_lengkap,
+            'username'     => $request->username,
+            'password'     => Hash::make($request->password),
+            'role'         => 'peminjam' // 🔒 DIKUNCI
+        ]);
+
+        return response()->json([
+            'message' => 'Registrasi berhasil',
+            'user'    => $user
+        ], 201);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+    
+        return response()->json([
+            'message' => 'Logout berhasil, token tidak berlaku lagi'
+        ]);
+    }
+
 }
