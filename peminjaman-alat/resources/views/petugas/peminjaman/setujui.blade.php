@@ -29,13 +29,16 @@
                     </tr>
                   </thead>
                   <tbody>
+                    @php
+                        $no = $peminjaman->firstItem();
+                    @endphp
                     @foreach ($peminjaman as $p)
                         @foreach ($p->detail as $d)
                     <tr>
                       <td>
                         <div class="d-flex px-3 py-1">
                           <div class="d-flex">
-                            {{ $peminjaman->firstItem() + $loop->index }}
+                            {{ $no++ }}
                           </div>
                         </div>
                       </td>

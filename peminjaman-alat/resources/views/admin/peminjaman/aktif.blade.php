@@ -54,9 +54,6 @@
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
-                @if (session('error'))
-                    <p style="color:red">{{ session('error') }}</p>
-                @endif
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
@@ -78,7 +75,7 @@
                       <td>
                         <div class="d-flex px-3 py-1">
                           <div class="d-flex">
-                            {{ $peminjaman->firstItem() + $loop->index }}
+                            {{ $loop->parent->iteration }}
                           </div>
                         </div>
                       </td>

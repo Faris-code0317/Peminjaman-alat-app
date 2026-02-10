@@ -142,7 +142,7 @@ class AlatController extends Controller
 
         if ($dipakai) {
             return redirect('/admin/alat')
-                ->with('error', 'Alat tidak bisa dihapus karena sudah memiliki riwayat peminjaman');
+                ->with('error', 'Alat tidak bisa dihapus karena masih memiliki riwayat peminjaman');
         }
 
         // ===============================

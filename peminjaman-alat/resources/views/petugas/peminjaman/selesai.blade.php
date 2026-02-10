@@ -62,9 +62,6 @@ function showTolakForm(id) {
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
-                @if (session('error'))
-                    <p style="color:red">{{ session('error') }}</p>
-                @endif
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
@@ -81,13 +78,16 @@ function showTolakForm(id) {
                     </tr>
                   </thead>
                   <tbody>
+                    @php
+                        $no = $peminjaman->firstItem();
+                    @endphp
                     @foreach ($peminjaman as $p)
                         @foreach ($p->detail as $d)
                     <tr>
                       <td>
                         <div class="d-flex px-3 py-1">
                           <div class="d-flex">
-                            {{ $peminjaman->firstItem() + $loop->index }}
+                            {{ $no++ }}
                           </div>
                         </div>
                       </td>
@@ -106,10 +106,15 @@ function showTolakForm(id) {
                       <td>
                         {{ $p->tanggal_pinjam->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
                       </td>
-                      <td class="text-center">
-                          {{ $p->tanggal_disetujui?->timezone('Asia/Jakarta')
-                              ?->translatedFormat('d F Y (H:i:s)') ?? '-' }}
-                      </td>
+                        <td class="text-center">
+                            @if ($p->tanggal_disetujui)
+                                {{ $p->tanggal_disetujui
+                                    ->timezone('Asia/Jakarta')
+                                    ->translatedFormat('d F Y (H:i:s)') }}
+                            @else
+                                <span class="text-muted">Belum disetujui</span>
+                            @endif
+                        </td>
                       <td>
                         {{ $p->tanggal_kembali->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
                       </td>

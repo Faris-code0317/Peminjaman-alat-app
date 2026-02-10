@@ -242,7 +242,7 @@ class PetugasController extends Controller
         $peminjaman->update([
             'status' => 'ditolak',
             'alasan_ditolak' => request('alasan'),
-            'tanggal_kembali' => now()
+            'tanggal_kembali' => Carbon::now('Asia/Jakarta')
         ]);
 
         logAktivitas(

@@ -268,4 +268,33 @@ class PeminjamanController extends Controller
             'data' => $peminjaman
         ]);
     }
+
+    public function byStatus(Request $request, $status)
+    {
+        $user = $request->user();
+
+        $allowedStatus = ['menunggu', 'dipinjam', 'dikembalikan', 'ditolak'];
+
+        if (!in_array($status, $allowedStatus)) {
+            return response()->json([
+                'message' => 'Status tidak valid'
+            ], 400);
+        }
+
+        $data = Peminjaman::with([
+                'detail.alat.kategori'
+            ])
+            ->where('id_user', $user->id_user)
+            ->where('status', $status)
+            ->orderBy('tanggal_pinjam', 'desc')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'status' => $status,
+            'total' => $data->count(),
+            'data' => $data
+        ]);
+    }
+
 }

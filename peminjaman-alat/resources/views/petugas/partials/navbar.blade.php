@@ -8,6 +8,7 @@
     'kategori' => 'Data Kategori',
     'peminjaman-aktif' => 'Peminjaman Aktif',
     'peminjaman-selesai' => 'Peminjaman Selesai',
+    'laporan' => 'Cetak Laporan'
   ];
 
   if ($segment === 'peminjaman') {
@@ -77,6 +78,17 @@
                                 {{ $k->nama_alat }}
                             </option>
                         @endforeach
+                    </select>
+               @elseif (in_array($segment, ['laporan']))
+                    <select name="status"
+                                class="form-select form-select-sm"
+                                style="width: 140px;"
+                                onchange="this.form.submit()">
+                          <option value="">Semua status</option>
+                            <option value="ditolak" {{ request('status')=='ditolak' ? 'selected' : '' }}>Ditolak</option>
+                            <option value="dikembalikan" {{ request('status')=='dikembalikan' ? 'selected' : '' }}>Dikembalikan</option>
+                            <option value="dipinjam" {{ request('status')=='dipinjam' ? 'selected' : '' }}>Dipinjam</option>
+                            <option value="menunggu" {{ request('status')=='menunggu' ? 'selected' : '' }}>Menunggu</option>
                     </select>
                @elseif(in_array($segment, ['alat']))
                     <select name="id_kategori"

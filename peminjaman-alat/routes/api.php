@@ -28,6 +28,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/alat', [AlatController::class, 'index']);
     Route::post('/peminjaman', [PeminjamanController::class, 'store']);
     Route::get('/peminjaman/user/{id}', [PeminjamanController::class, 'byUser']);
+    Route::get('/peminjaman/status/{status}', [PeminjamanController::class, 'byStatus']);
+
 
     // ================= PETUGAS / ADMIN =================
     Route::put('/peminjaman/{id}/setujui', [PeminjamanController::class, 'setujui']);

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PeminjamanAdminController;
 use App\Http\Controllers\Petugas\PetugasController;
 use App\Http\Controllers\Admin\LogAktivitasController;
+use App\Http\Controllers\Petugas\LaporanController;
 
 
 
@@ -68,6 +69,10 @@ Route::middleware(['login', 'petugas'])->group(function () {
     Route::get('/petugas', function () {
         return view('petugas.index');
     });
+
+
+    Route::get('/petugas/laporan', [LaporanController::class, 'index'])->name('petugas.laporan');
+    Route::get('/petugas/laporan/peminjaman', [LaporanController::class, 'peminjaman']);
 
     Route::get('/petugas/alat', [PetugasController::class, 'alat']);
     Route::get('/petugas/peminjaman', [PetugasController::class, 'peminjaman'])->name('petugas.peminjaman');

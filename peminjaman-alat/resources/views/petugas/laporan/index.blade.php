@@ -1,65 +1,3 @@
-{{-- <h3>Data Peminjaman</h3>
-
-<table border="1" cellpadding="10">
-    <tr>
-        <th>No</th>
-        <th>Username Peminjam</th>
-        <th>Nama Alat</th>
-        <th>Jumlah</th>
-        <th>Stok Saat Ini</th>
-        <th>Tanggal Permintaan</th>
-        <th>Tanggal Disetujui</th>
-        <th>Status</th>
-        <th>Gambar</th>
-        <th>Aksi</th>
-    </tr>
-
-@foreach ($peminjaman as $p)
-    @foreach ($p->detail as $d)
-    <tr>
-        <td>{{ $loop->parent->iteration }}</td>
-        <td>{{ $p->user->nama_lengkap }}</td>
-        <td>{{ $d->alat->nama_alat ?? '-' }}</td>
-        <td>{{ $d->jumlah }}</td>
-        <td>{{ $d->alat->stok ?? '-' }}</td>
-        <td>{{ $p->tanggal_pinjam->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}</td>
-        <td>{{ $p->tanggal_disetujui->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}</td>
-        <td>
-            {{ ucfirst($p->status) }}
-            @if ($p->status === 'ditolak')
-                <br>
-                <small style="color:red">
-                    Alasan: {{ $p->alasan_ditolak }}
-                </small>
-            @endif
-        </td>
-        <td>
-           <img src="{{ asset('storage/alat/' . $d->alat->gambar) }}"
-                width="80"
-                style="border-radius:6px">
-        </td>
-        <td>
-            <form action="/petugas/peminjaman-aktif/{{ $p->id_peminjaman }}/kembalikan"
-                  method="POST"
-                  onsubmit="return confirm('Apakah yakin alat ingin dikembalikan?')">
-                @csrf
-                <button class="btn btn-warning btn-sm">
-                    Kembalikan
-                </button>
-            </form>
-        </td>
-    </tr>
-    @endforeach
-@endforeach
-</table>
-
-<script>
-function showTolakForm(id) {
-    document.getElementById('form-tolak-' + id).style.display = 'block';
-}
-</script>
- --}}
-
 @extends('layouts.petugas')
 @section('title','Data Peminjam Aktif')
 
@@ -68,26 +6,36 @@ function showTolakForm(id) {
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Data Peminjaman</h6>
+              <h6>Cetak Laporan Peminjaman</h6>
+                <form action="{{ url('/petugas/laporan/peminjaman') }}" method="GET" target="_blank" class="row g-2 mb-3">
+                    <div class="col-md-4">
+                        <input type="date" name="from" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="date" name="to" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-danger w-100">
+                            <i class="bi bi-printer"></i> Cetak Laporan
+                        </button>
+                    </div>
+                </form>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
-                @if (session('error'))
-                    <p style="color:red">{{ session('error') }}</p>
-                @endif
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Username Peminjam</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nama Alat</th>
-                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah Dipinjam</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stok Saat Ini</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Permintaan</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Disetujui</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Dikembalikan</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gambar</th>
-                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -124,12 +72,28 @@ function showTolakForm(id) {
                                 {{ $p->tanggal_disetujui
                                     ->timezone('Asia/Jakarta')
                                     ->translatedFormat('d F Y (H:i:s)') }}
+                            @elseif ($p->status === 'ditolak')
+                                <span class="text-muted">Tidak disetujui</span>
                             @else
                                 <span class="text-muted">Belum disetujui</span>
                             @endif
                         </td>
+                      <td class="text-center">
+                        @if ($p->status !== 'menunggu' && $p->status !== 'dipinjam')
+                            {{ $p->tanggal_kembali->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)')}}
+                        @else
+                            -
+                        @endif
+                      </td>
                       <td class="align-middle text-center">
-                            <span class="badge badge-sm bg-gradient-success">{{ ucfirst($p->status) }}</span>
+                        @if(ucfirst($p->status === 'ditolak'))
+                        <span class="badge badge-sm bg-gradient-danger">{{ ucfirst($p->status) }}</span><br>
+                        <small style="color:red; font-size: 11px">
+                                Alasan: {{ $p->alasan_ditolak }}
+                        </small>
+                        @else
+                        <span class="badge badge-sm bg-gradient-primary">{{ ucfirst($p->status) }}</span>
+                        @endif
                       </td>
                       <td class="align-middle text-center">
                          @foreach ($p->detail as $d)
@@ -139,17 +103,6 @@ function showTolakForm(id) {
                                      style="margin-bottom:5px;border-radius:6px">
                             @endif
                         @endforeach
-                      </td>
-                      <td class="text-center">
-                        <form action="/petugas/peminjaman-aktif/{{ $p->id_peminjaman }}/kembalikan"
-                              method="POST"
-                              style="display: inline"
-                              class="form-kembalikan">
-                            @csrf
-                            <button class="btn-none" type="submit" style="background: none; border: none;">
-                                <i class="fa-regular fa-circle-check" style="color: #15b300;"></i>
-                            </button>
-                        </form>
                       </td>
                     </tr>
                     @endforeach
@@ -165,4 +118,3 @@ function showTolakForm(id) {
      </div>
 </div>
 @endsection
-

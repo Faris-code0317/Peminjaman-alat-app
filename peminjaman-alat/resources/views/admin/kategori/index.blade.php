@@ -17,9 +17,6 @@
                     data-bs-target="#modalTambahUser">
                     Tambah Kategori
                 </button>
-                @if (session('error'))
-                    <p style="color:red">{{ session('error') }}</p>
-                @endif
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>

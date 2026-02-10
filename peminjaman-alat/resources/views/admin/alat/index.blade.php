@@ -17,9 +17,6 @@
                     data-bs-target="#modalTambahAlat">
                     Tambah Alat
                 </button>
-                @if (session('error'))
-                    <p style="color:red">{{ session('error') }}</p>
-                @endif
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
@@ -51,9 +48,10 @@
                          {{ $a->stok }}
                       </td>
                       <td class="align-middle text-center">
-                        <img src="{{ asset('storage/alat/' . $a->gambar) }}"
+                        {{-- <img src="{{ asset('storage/alat/' . $a->gambar) }}"
                             width="80"
-                            style="border-radius:6px">
+                            style="border-radius:6px"> --}}
+                        <img src="{{ Storage::url('alat/' . $a->gambar) }}" width="80" style="border-radius:6px">
                       </td>
                       <td class="align-middle text-center">
                          <a href="#" data-bs-toggle="modal" data-bs-target="#modalEditPetugasAdmin{{ $a->id_alat }}">
