@@ -16,7 +16,7 @@
         <td align="center">
             <h3>LAPORAN PEMINJAMAN ALAT</h3>
             <p>SMK / KAPROGSIS AL ITTIHAD</p>
-            <p>Periode {{ $from }} s/d {{ $to }}</p>
+            <p>Periode {{ $from->timezone('Asia/Jakarta')->translatedFormat('d F Y') }} s/d {{ $to->timezone('Asia/Jakarta')->translatedFormat('d F Y') }}</p>
         </td>
         <td width="15%" style="text-align: center">
             <img src="{{ public_path('logoPPLG.png') }}" width="80">
@@ -32,15 +32,34 @@
             <th>No</th>
             <th>Nama User</th>
             <th>Nama Alat</th>
-            <th>Kategori Alat</th>
+            @if($showKategori)
+                <th>Kategori Alat</th>
+            @endif
             <th>Jumlah</th>
             <th>Status</th>
-            <th>Alasan</th>
-            <th>Tanggal</th>
+            @if($showTanggalMengajukan)
+                <th>Tanggal Mengajukan</th>
+            @endif
+            @if($showTanggalDisetujui)
+                <th>Tanggal Disetujui</th>
+            @endif
+            @if($showAlasan)
+                <th>Alasan</th>
+            @endif
+            <th>Tanggal (Timeline)</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($peminjaman as $p)
+        @php
+            $peminjamanSorted = $peminjaman->sortByDesc(function ($p) {
+                return match ($p->status) {
+                    'menunggu' => $p->tanggal_pinjam,
+                    'dipinjam' => $p->tanggal_disetujui,
+                    default => $p->tanggal_kembali,
+                };
+            });
+        @endphp
+        @foreach($peminjamanSorted as $p)
             @foreach ($p->detail as $d)
         <tr>
             <!-- No -->
@@ -55,9 +74,9 @@
             </td>
 
             <!-- Nama Kategori -->
-            <td>
-                {{ $d->alat->kategori->nama_kategori }}
-            </td>
+            @if($showKategori)
+                <td>{{ $d->alat->kategori->nama_kategori ?? '-' }}</td>
+            @endif
 
             <!-- Jumlah Alat -->
             <td style="text-align:center">
@@ -83,25 +102,45 @@
                 </td>
              @endif
 
+            @if($showTanggalMengajukan)
+                <td style="text-align: center;">
+                    {{ $p->tanggal_pinjam->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
+                 </td>
+            @endif
+
+            @if($showTanggalDisetujui)
+                <td style="text-align: center;">
+                    @if ($p->status === 'dipinjam')
+                        {{ $p->tanggal_disetujui->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
+                    @elseif ($p->status === 'dikembalikan')
+                        {{ $p->tanggal_disetujui->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
+                    @else
+                        -
+                    @endif
+                 </td>
+            @endif
+
              <!-- Alasan ditolak(jika status "ditolak") -->
-             <td style="text-align: center;">
-                @if($p->status === 'ditolak')
-                    <div style="color: red">{{ $p->alasan_ditolak }}</div>
-                @else
-                    -
-                @endif
-             </td>
+             @if($showAlasan)
+                <td style="text-align: center;">
+                    @if($p->status === 'ditolak')
+                        <div style="color: red">{{ $p->alasan_ditolak }}</div>
+                    @else
+                        -
+                    @endif
+                 </td>
+             @endif
 
              <!-- Tanggal dipinjam/setujui,dikembalikan,ditolak,menunggu -->
-            <td style="text-align: center;">
-                @if ($p->status === 'dipinjam')
-                    {{ $p->tanggal_disetujui->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
-                @elseif ($p->status === 'menunggu')
-                    {{ $p->tanggal_pinjam->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
-                @else
-                    {{ $p->tanggal_kembali->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
-                @endif
-            </td>
+                <td style="text-align: center;">
+                    @if ($p->status === 'dipinjam')
+                        {{ $p->tanggal_disetujui->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
+                    @elseif ($p->status === 'menunggu')
+                        {{ $p->tanggal_pinjam->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
+                    @else
+                        {{ $p->tanggal_kembali->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
+                    @endif
+                </td>
         </tr>
             @endforeach
         @endforeach

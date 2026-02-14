@@ -5,20 +5,29 @@ namespace App\Http\Controllers\Petugas;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Peminjaman;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\DomPDF\Facade\PDF;
 use App\Models\Alat;
 use App\Models\Kategori;
+use Carbon\Carbon;
 
 class LaporanController extends Controller
 {
     public function peminjaman(Request $request)
     {
-        $from = $request->from;
-        $to   = $request->to;
 
-        $peminjaman = Peminjaman::orderBy('tanggal_kembali', 'desc')
-            ->with('user', 'detail.alat')
+        $from = Carbon::parse($request->from)->startOfDay();
+        $to   = Carbon::parse($request->to)->endOfDay();
+        $showKategori = $request->boolean('show_kategori');
+        $showAlasan = $request->boolean('show_alasan');
+        $showTanggalMengajukan = $request->boolean('show_tanggalMengajukan');
+        $showTanggalDisetujui = $request->boolean('show_tanggalDisetujui');
+        $selectedStatus = $request->status ?? [];
+
+        $peminjaman = Peminjaman::with('user', 'detail.alat')
             ->whereBetween('tanggal_pinjam', [$from, $to])
+            ->when(!empty($selectedStatus), function ($q) use ($selectedStatus) {
+                     $q->whereIn('status', $selectedStatus);
+                 })
             ->get();
 
         $alat = Alat::with('kategori')
@@ -26,7 +35,7 @@ class LaporanController extends Controller
         $kategori = Kategori::all();
         $pdf = PDF::loadView(
             'petugas.laporan.peminjaman',
-            compact('peminjaman','alat','kategori', 'from', 'to')
+            compact('peminjaman','alat','kategori', 'from', 'to', 'showKategori', 'showAlasan', 'showTanggalDisetujui', 'showTanggalMengajukan', 'selectedStatus')
         );
 
         return $pdf->stream('laporan-peminjaman.pdf');

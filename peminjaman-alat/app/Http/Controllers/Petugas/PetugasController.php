@@ -7,7 +7,7 @@ use App\Models\Alat;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use App\Models\Kategori;
-use App\Models\DetailPeminjaman;
+// use App\Models\DetailPeminjaman;
 use Illuminate\support\facades\DB;
 use Carbon\Carbon;
 

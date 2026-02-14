@@ -52,7 +52,7 @@
         <li class="nav-item">
          <a class="nav-link {{ Route::is('petugas.laporan') ? 'active' : '' }}" href="/petugas/laporan">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="fa-solid fa-user-check text-sm opacity-10" style="color: #00aafe;"></i>
+                <i class="fa-solid fa-file-contract text-sm opacity-10" style="color: #ff0000;"></i>
             </div>
             <span class="nav-link-text ms-1">Cetak Laporan</span>
           </a>
