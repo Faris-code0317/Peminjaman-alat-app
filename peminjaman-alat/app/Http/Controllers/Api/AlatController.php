@@ -12,6 +12,11 @@ class AlatController extends Controller
     {
         $alat = Alat::with('kategori')->get();
 
+        $alat->transform(function ($item) {
+            $item->gambar = url('/api/image/' . $item->gambar);
+            return $item;
+        });
+
         return response()->json([
             'message' => 'Data alat',
             'data' => $alat
@@ -35,13 +40,13 @@ class AlatController extends Controller
     public function show($id)
     {
         $alat = Alat::with('kategori')->find($id);
-    
+
         if (!$alat) {
             return response()->json([
                 'message' => 'Alat tidak ditemukan'
             ], 404);
         }
-    
+
         return response()->json([
             'message' => 'Detail alat',
             'data' => $alat

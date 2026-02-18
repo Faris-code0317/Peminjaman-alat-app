@@ -6,6 +6,16 @@ use App\Http\Controllers\Api\KategoriController;
 use App\Http\Controllers\Api\AlatController;
 use App\Http\Controllers\Admin\LogAktivitasController;
 use App\Http\Controllers\Api\PeminjamanController;
+use Illuminate\Support\Facades\Response;
+
+
+   Route::get('/image/{filename}', function ($filename) {
+       $path = storage_path('app/public/alat/' . $filename);
+       if (!file_exists($path)) {
+           return response()->json(['message' => 'File not found'], 404);
+       }
+       return Response::file($path);
+   });
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +39,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/peminjaman', [PeminjamanController::class, 'store']);
     Route::get('/peminjaman/user/{id}', [PeminjamanController::class, 'byUser']);
     Route::get('/peminjaman/status/{status}', [PeminjamanController::class, 'byStatus']);
-
 
     // ================= PETUGAS / ADMIN =================
     Route::put('/peminjaman/{id}/setujui', [PeminjamanController::class, 'setujui']);

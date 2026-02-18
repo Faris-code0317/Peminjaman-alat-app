@@ -28,7 +28,7 @@ class _SplashPageState extends State<SplashPage> {
     if (auth.isLoggedIn) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const HomePage()),
+        MaterialPageRoute(builder: (_) => HomePage()),
       );
     } else {
       Navigator.pushReplacement(

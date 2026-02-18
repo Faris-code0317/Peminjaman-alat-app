@@ -9,7 +9,7 @@ class StorageService {
     await _storage.write(key: _tokenKey, value: token);
     
     final savedToken = await StorageService.getToken();
-    print("TOKEN TERSIMPAN: $savedToken");
+    print("TOKEN TERSIMPAN: $savedToken");  
   }
 
   static Future<String?> getToken() async {

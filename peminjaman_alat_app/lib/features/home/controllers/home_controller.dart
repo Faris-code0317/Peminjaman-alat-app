@@ -1,23 +1,23 @@
 import 'package:get/get.dart';
 import 'package:peminjaman_alat_app/models/alat_model.dart';
-import 'alat_services.dart';
-
-class AlatController extends GetxController {
+import 'package:peminjaman_alat_app/features/alat/alat_services.dart';
+class HomeController extends GetxController {
   var isLoading = true.obs;
   var alatList = <AlatModel>[].obs;
   var errorMessage = ''.obs;
 
   @override
   void onInit() {
-    fetchData();
+    fetchAlat();
     super.onInit();
   }
 
-  void fetchData() async {
+  void fetchAlat() async {
     try {
       isLoading(true);
-      final result = await AlatService.getAlat();
-      alatList.assignAll(result);
+
+      final data = await AlatService.getAlat();
+      alatList.assignAll(data);
     } catch (e) {
       errorMessage.value = e.toString();
     } finally {
