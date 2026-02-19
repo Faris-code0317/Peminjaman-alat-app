@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use App\Models\LogAktivitas;
+
 
 
 
@@ -23,11 +27,16 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'message' => 'Login gagal'
+                'message' => 'Username atau password salah'
             ], 401);
         }
 
-        // ⬅️ INI KUNCI API STABIL
+         if ($user->role !== 'peminjam') {
+             return response()->json([
+                 'message' => 'Username atau password salah'
+             ], 401);
+         }
+
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
@@ -42,26 +51,69 @@ class AuthController extends Controller
         $request->validate([
             'nama_lengkap' => 'required|string|max:100',
             'username'     => 'required|string|unique:tb_user,username',
-            'password'     => 'required|string|min:6'
+            'password'     => 'required|string|min:6|confirmed'
         ]);
 
-        $user = User::create([
-            'nama_lengkap' => $request->nama_lengkap,
-            'username'     => $request->username,
-            'password'     => Hash::make($request->password),
-            'role'         => 'peminjam' // 🔒 DIKUNCI
-        ]);
+        DB::beginTransaction();
 
-        return response()->json([
-            'message' => 'Registrasi berhasil',
-            'user'    => $user
-        ], 201);
+        try {
+
+            $user = User::create([
+                'nama_lengkap' => $request->nama_lengkap,
+                'username'     => $request->username,
+                'password'     => Hash::make($request->password),
+                'role'         => 'peminjam'
+            ]);
+
+            // ✅ Simpan log aktivitas
+            LogAktivitas::create([
+                'id_user'   => $user->id_user,
+                'nama_user' => $user->nama_lengkap,
+                'role'      => $user->role,
+                'aktivitas' => 'Registrasi Akun',
+                'keterangan'=> 'User baru melakukan registrasi',
+                'created_at'=> Carbon::now('Asia/Jakarta')
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Registrasi berhasil, silakan login'
+            ], 201);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 400);
+        }
     }
+
+    // public function register(Request $request)
+    // {
+    //     $request->validate([
+    //         'nama_lengkap' => 'required|string|max:100',
+    //         'username'     => 'required|string|unique:tb_user,username',
+    //         'password'     => 'required|string|min:6|confirmed'
+    //     ]);
+
+    //     $user = User::create([
+    //         'nama_lengkap' => $request->nama_lengkap,
+    //         'username'     => $request->username,
+    //         'password'     => Hash::make($request->password),
+    //         'role'         => 'peminjam'
+    //     ]);
+
+    //     return response()->json([
+    //         'message' => 'Registrasi berhasil',
+    //         'user'    => $user
+    //     ], 201);
+    // }
 
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-    
+
         return response()->json([
             'message' => 'Logout berhasil, token tidak berlaku lagi'
         ]);

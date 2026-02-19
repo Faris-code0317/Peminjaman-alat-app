@@ -58,6 +58,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 
+// http://192.168.110.215:8000
+
+// php artisan serve --host=0.0.0.0 --port=8000
 
 //
 //<?php

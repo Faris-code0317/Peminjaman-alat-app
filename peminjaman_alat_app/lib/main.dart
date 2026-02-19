@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 
 import 'package:peminjaman_alat_app/routes/app_pages.dart';
 import 'package:peminjaman_alat_app/routes/app_routes.dart';
+import 'package:peminjaman_alat_app/core/services/api_services.dart';
 
 import 'package:peminjaman_alat_app/features/alat/alat_controller.dart';
 import 'features/auth/login_page.dart';
@@ -15,6 +16,7 @@ void main() async {
   // ApiService.initialize();
    WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init(); // WAJIB ADA INI
+  ApiService.initialize();
   runApp(const MyApp());
 }
 

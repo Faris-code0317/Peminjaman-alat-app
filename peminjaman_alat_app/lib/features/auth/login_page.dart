@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'auth_controller.dart';
 import 'package:peminjaman_alat_app/features/home/home_page.dart  ';
+import 'package:peminjaman_alat_app/features/auth/register_page.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -53,13 +54,42 @@ class LoginPage extends StatelessWidget {
               ),
 
             if (auth.errorMessage != null)
-              Text(
-                auth.errorMessage!,
-                style: const TextStyle(color: Colors.red),
-              )
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  auth.errorMessage!,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ),
+
+            const SizedBox(height: 20),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("Belum punya akun? "),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => RegisterPage(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    "Register",
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
-        ),
+        )
       ),
     );
   }
-}
+} 

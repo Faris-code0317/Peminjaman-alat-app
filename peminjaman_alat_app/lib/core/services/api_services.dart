@@ -19,6 +19,7 @@ class ApiService {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           String? token = await StorageService.getToken();
+           print("TOKEN YANG DIKIRIM: $token");
 
           if (token != null) {
             options.headers["Authorization"] = "Bearer $token";
