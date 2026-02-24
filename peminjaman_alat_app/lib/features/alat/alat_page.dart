@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'alat_controller.dart';
+import 'controllers/alat_controller.dart';
 
 class AlatPage extends StatelessWidget {
   AlatPage({super.key});

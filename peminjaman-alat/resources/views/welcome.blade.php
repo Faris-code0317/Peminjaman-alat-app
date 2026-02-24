@@ -108,7 +108,7 @@
                     <input type="password" name="password" class="form-control" required>
                 </div>
 
-                <button class="btn btn-success w-100">Sign in</button>
+                <button class="btn btn-success w-100">Masuk</button>
             </form>
 
         </div>
@@ -120,22 +120,22 @@
     {{-- SOCIAL LOGIN (UI ONLY) --}}
     <div class="d-grid gap-2 mb-3">
         <button class="btn btn-social">
-            <i class="fa-brands fa-google me-2 text-danger"></i> Continue with Google
+            <i class="fa-brands fa-google me-2 text-danger"></i> Lanjtkan dengan Google
         </button>
 
         <button class="btn btn-social">
-            <i class="fa-brands fa-twitter me-2 text-info"></i> Continue with Twitter
+            <i class="fa-brands fa-twitter me-2 text-info"></i> Lanjtkan dengan Twitter
         </button>
 
         <button class="btn btn-social">
-            <i class="fa-brands fa-facebook me-2 text-primary"></i> Continue with Facebook
+            <i class="fa-brands fa-facebook me-2 text-primary"></i> Lanjtkan dengan Facebook
         </button>
     </div>
 
-    {{-- FOOTER --}}
+    {{-- FOOTER
     <div class="small">
         New here? <a href="#">Create an account</a>
-    </div>
+    </div> --}}
 
 </div>
 

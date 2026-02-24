@@ -26,7 +26,7 @@ class AuthController extends ChangeNotifier {
       isLoggedIn = true;
     } catch (e) {
       isLoggedIn = false; 
-      errorMessage = "Login gagal";
+      errorMessage = "Username atau password salah";
     } finally {
       isLoading = false;
       notifyListeners();

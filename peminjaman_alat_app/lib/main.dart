@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'features/auth/auth_controller.dart';
+import 'features/auth/controllers/auth_controller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -8,7 +8,7 @@ import 'package:peminjaman_alat_app/routes/app_pages.dart';
 import 'package:peminjaman_alat_app/routes/app_routes.dart';
 import 'package:peminjaman_alat_app/core/services/api_services.dart';
 
-import 'package:peminjaman_alat_app/features/alat/alat_controller.dart';
+import 'package:peminjaman_alat_app/features/alat/controllers/alat_controller.dart';
 import 'features/auth/login_page.dart';
 import 'package:peminjaman_alat_app/features/auth/splash_page.dart';
 

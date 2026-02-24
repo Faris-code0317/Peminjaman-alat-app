@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:peminjaman_alat_app/models/alat_model.dart';
-import 'alat_services.dart';
+import '../alat_services.dart';
 
 class AlatController extends GetxController {
   var isLoading = true.obs;
