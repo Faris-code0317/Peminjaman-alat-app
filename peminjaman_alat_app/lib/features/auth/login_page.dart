@@ -7,6 +7,7 @@ import 'package:peminjaman_alat_app/features/auth/register_page.dart';
 
 import 'package:peminjaman_alat_app/features/auth/widgets/loginButtonOption.dart';
 import 'package:peminjaman_alat_app/features/auth/widgets/topCardHeader.dart';
+import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
@@ -19,14 +20,25 @@ class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
+  bool _isVisible = false;
   bool _isObscure = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration(milliseconds: 100), () {
+      setState(() {
+        _isVisible = true;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthController>();
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
       body: ClipRect(
         child: Container(
           decoration: BoxDecoration(
@@ -34,10 +46,10 @@ class _LoginPageState extends State<LoginPage> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Color(0xffffffff),
-                Color(0xFFF2F3F7), 
-                Color(0xFFEDEFF5), 
-                Color(0xFFFFFFFF),
+                AppColors.primaryLogin,
+                AppColors.bgLight1,
+                AppColors.bgLight2, 
+                AppColors.bgWhite,
               ],
             ),
           ),
@@ -47,140 +59,11 @@ class _LoginPageState extends State<LoginPage> {
               children: [
 
                 topCardImage(
-                  imageAsset: const AssetImage("assets/icons/1.png"),
-                  color: Color.fromRGBO(183, 167, 231, 1),
+                  imageAsset: AppAssets.loginIcon,
+                  color: AppColors.primaryLogin,
                 ),
 
-                Container(
-                  width: double.infinity,
-                  height: 210,
-                  margin: const EdgeInsets.only(
-                      top: 20, left: 15, right: 15, bottom: 0
-                    ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TextField(
-                        controller: usernameController,
-                        decoration: InputDecoration(
-                          hintText: "Username",
-                          prefixIcon: const Icon(Icons.person),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 18,
-                            horizontal: 20,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                              color: Color.fromRGBO(183, 167, 231, 1),
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 2),
-                      TextField(
-                      controller: passwordController,
-                      obscureText: _isObscure,
-                      decoration: InputDecoration(
-                        hintText: "Password",
-                        prefixIcon: const Icon(Icons.lock),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _isObscure ? Icons.visibility_off : Icons.visibility,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isObscure = !_isObscure;
-                            });
-                          },
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 18,
-                          horizontal: 20,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: const BorderSide(
-                            color: Color.fromRGBO(183, 167, 231, 1),
-                            width: 2,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: 3),
-                    
-                    if (auth.isLoading)
-                    const CircularProgressIndicator()
-                    else
-                      SizedBox(
-                      width: double.infinity,
-                      height: 55,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromRGBO(183, 167, 231, 1),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                        onPressed: () async {
-                            await auth.login(
-                              username: usernameController.text,
-                              password: passwordController.text,
-                            );
-
-                            if (auth.isLoggedIn && context.mounted) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => HomePage(),
-                                ),
-                              );
-                            } else if (auth.errorMessage != null && context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadiusGeometry.circular(15)
-                                  ),
-                                  behavior: SnackBarBehavior.floating,
-                                  margin: EdgeInsets.all(20),
-                                  backgroundColor: const Color(0xffA13842),
-                                  content: Center(
-                                    child: Text(
-                                      auth.errorMessage!,
-                                      style: const TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                        child: const Text(
-                          "Masuk",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    ],
-                  ),
-                ),
+                _loginForm(auth, context),
 
                 const SizedBox(height: 20),
 
@@ -204,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: const Text(
                         "Daftar",
                         style: TextStyle(
-                          color: Colors.blue,
+                          color: AppColors.link,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -215,6 +98,109 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _loginForm(AuthController auth, BuildContext context) {
+    return AnimatedSlide(
+      offset: _isVisible ? Offset.zero : Offset(0, 0.5),
+      duration: Duration(milliseconds: 1500),
+      curve: Curves.easeOut,
+      child: AnimatedOpacity(
+        opacity: _isVisible ? 1 : 0,
+        duration: Duration(milliseconds: 1500),
+        child: Container(
+              width: double.infinity,
+              height: 210,
+              margin: const EdgeInsets.only(
+                  top: 20, left: 15, right: 15, bottom: 0
+                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextField(
+                    controller: usernameController,
+                    decoration: InputDecoration(
+                      hintText: "Username",
+                      prefixIcon: const Icon(Icons.person),
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  TextField(
+                  controller: passwordController,
+                  obscureText: _isObscure,
+                  decoration: InputDecoration(
+                    hintText: "Password",
+                    prefixIcon: const Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isObscure ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isObscure = !_isObscure;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 3),
+                
+                if (auth.isLoading)
+                const CircularProgressIndicator()
+                else
+                  SizedBox(
+                  width: double.infinity,
+                  height: 55,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryLogin,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      onPressed: () async {
+                          await auth.login(
+                            username: usernameController.text,
+                            password: passwordController.text,
+                          );
+
+                          if (auth.isLoggedIn && context.mounted) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => HomePage(),
+                              ),
+                            );
+                          } else if (auth.errorMessage != null && context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                margin: EdgeInsets.all(20),
+                                backgroundColor: AppColors.error,
+                                content: Center(
+                                  child: Text(
+                                    auth.errorMessage!,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                      child: const Text(
+                        "Masuk",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: AppColors.bgWhite,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ],
+                ),
+              )
       ),
     );
   }

@@ -11,6 +11,7 @@ import 'package:peminjaman_alat_app/core/services/api_services.dart';
 import 'package:peminjaman_alat_app/features/alat/controllers/alat_controller.dart';
 import 'features/auth/login_page.dart';
 import 'package:peminjaman_alat_app/features/auth/splash_page.dart';
+import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
 void main() async {
   // ApiService.initialize();
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: AppRoutes.SPLASH,
+        theme: AppTheme.lightTheme,
         getPages: AppPages.pages,
       ),
     );
