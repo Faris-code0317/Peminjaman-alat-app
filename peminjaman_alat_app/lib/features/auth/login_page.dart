@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import 'controllers/auth_controller.dart';
 import 'package:peminjaman_alat_app/features/home/home_page.dart';
 import 'package:peminjaman_alat_app/features/auth/register_page.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'package:peminjaman_alat_app/features/auth/widgets/loginButtonOption.dart';
+import 'package:peminjaman_alat_app/features/auth/widgets/topCardHeader.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
@@ -27,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.transparent,
       body: ClipRect(
         child: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -40,30 +42,13 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.all(8),
-                  padding: const EdgeInsets.all(5),
-                  height: 470,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                     gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [ 
-                        Color.fromRGBO(183, 167, 231, 1),
-                        Color(0xFFEDEFF5), 
-                      ],
-                    ),
-                    image: const DecorationImage(
-                      image: AssetImage("assets/icons/1.png"),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+
+                topCardImage(
+                  imageAsset: const AssetImage("assets/icons/1.png"),
+                  color: Color.fromRGBO(183, 167, 231, 1),
                 ),
 
                 Container(
@@ -136,8 +121,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
 
-                    SizedBox(height: 20),
-
+                    SizedBox(height: 3),
+                    
                     if (auth.isLoading)
                     const CircularProgressIndicator()
                     else
@@ -184,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                             }
                           },
                         child: const Text(
-                          "Login",
+                          "Masuk",
                           style: TextStyle(
                             fontSize: 18,
                             color: Colors.white,
@@ -199,79 +184,14 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 20),
 
-                Container(
-                  width: double.infinity,
-                  height: 90,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.grey.shade200
-                            ),
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(
-                            FontAwesomeIcons.google,
-                            color: Colors.red,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.grey.shade200
-                            ),
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(
-                            FontAwesomeIcons.twitter,
-                            color: Colors.lightBlue,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.grey.shade200
-                            ),
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(
-                            FontAwesomeIcons.facebook,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                loginButtonOption(),
 
                 const SizedBox(height: 20),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Belum punya akun? "),
+                    const Text("Belum mempunyai akun? "),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -282,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                         );
                       },
                       child: const Text(
-                        "Register",
+                        "Daftar",
                         style: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
@@ -299,3 +219,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
