@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:peminjaman_alat_app/features/auth/splash_page.dart';
 import 'package:peminjaman_alat_app/features/auth/login_page.dart';
-import 'package:peminjaman_alat_app/features/home/home_page.dart';
+import 'package:peminjaman_alat_app/bottomNavbar.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -16,7 +16,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.HOME,
-      page: () => HomePage(),
+      page: () => HomePages(),
     ),
   ];
 }

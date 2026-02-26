@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'controllers/auth_controller.dart';
-import '../home/home_page.dart';
+import 'package:peminjaman_alat_app/bottomNavbar.dart';
 import 'login_page.dart';
 
 class SplashPage extends StatefulWidget {
@@ -28,7 +28,7 @@ class _SplashPageState extends State<SplashPage> {
     if (auth.isLoggedIn) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => HomePage()),
+        MaterialPageRoute(builder: (_) => HomePages()),
       );
     } else {
       Navigator.pushReplacement(

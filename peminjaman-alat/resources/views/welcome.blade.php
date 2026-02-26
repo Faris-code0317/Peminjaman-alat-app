@@ -120,15 +120,15 @@
     {{-- SOCIAL LOGIN (UI ONLY) --}}
     <div class="d-grid gap-2 mb-3">
         <button class="btn btn-social">
-            <i class="fa-brands fa-google me-2 text-danger"></i> Lanjtkan dengan Google
+            <i class="fa-brands fa-google me-2 text-danger"></i> Lanjutkan dengan Google
         </button>
 
         <button class="btn btn-social">
-            <i class="fa-brands fa-twitter me-2 text-info"></i> Lanjtkan dengan Twitter
+            <i class="fa-brands fa-twitter me-2 text-info"></i> Lanjutkan dengan Twitter
         </button>
 
         <button class="btn btn-social">
-            <i class="fa-brands fa-facebook me-2 text-primary"></i> Lanjtkan dengan Facebook
+            <i class="fa-brands fa-facebook me-2 text-primary"></i> Lanjutkan dengan Facebook
         </button>
     </div>
 

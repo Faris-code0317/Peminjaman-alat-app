@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable; // ⬅️ PENTING
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 
@@ -13,6 +13,8 @@ class User extends Authenticatable
     protected $table = 'tb_user';
     protected $primaryKey = 'id_user';
     public $timestamps = false;
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $fillable = [
         'nama_lengkap',

@@ -1,12 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\LogAktivitasController;
+use App\Http\Controllers\Api\AlatController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\KategoriController;
-use App\Http\Controllers\Api\AlatController;
-use App\Http\Controllers\Admin\LogAktivitasController;
 use App\Http\Controllers\Api\PeminjamanController;
+use App\Http\Controllers\Api\UserApiController;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Route;
 
 
    Route::get('/image/{filename}', function ($filename) {
@@ -39,6 +40,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/peminjaman', [PeminjamanController::class, 'store']);
     Route::get('/peminjaman/user/{id}', [PeminjamanController::class, 'byUser']);
     Route::get('/peminjaman/status/{status}', [PeminjamanController::class, 'byStatus']);
+    Route::get('/me', [UserApiController::class, 'me']);
+    Route::put('/profile', [UserApiController::class, 'updateProfile']);
+    Route::put('/change-password', [UserApiController::class, 'changePassword']);
 
     // ================= PETUGAS / ADMIN =================
     Route::put('/peminjaman/{id}/setujui', [PeminjamanController::class, 'setujui']);

@@ -2,7 +2,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'controllers/auth_controller.dart';
-import 'package:peminjaman_alat_app/features/home/home_page.dart';
+//
+import 'package:peminjaman_alat_app/bottomNavbar.dart';
+//
 import 'package:peminjaman_alat_app/features/auth/register_page.dart';
 
 import 'package:peminjaman_alat_app/features/auth/widgets/loginButtonOption.dart';
@@ -171,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => HomePage(),
+                                builder: (_) => HomePages(),
                               ),
                             );
                           } else if (auth.errorMessage != null && context.mounted) {

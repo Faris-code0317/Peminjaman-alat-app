@@ -16,7 +16,6 @@ use App\Models\User;
 
 class PeminjamanController extends Controller
 {
-    // GET semua peminjaman
     public function index()
     {
         return response()->json(
@@ -83,14 +82,12 @@ class PeminjamanController extends Controller
                 }
             }
 
-            // 1️⃣ Buat data peminjaman (STATUS MENUNGGU)
             $peminjaman = Peminjaman::create([
                 'id_user' => $user->id_user,
                 'tanggal_pinjam' => Carbon::now('Asia/Jakarta'),
                 'status' => 'menunggu'
             ]);
 
-            // 2️⃣ Simpan detail peminjaman (TANPA UBAH STOK)
             foreach ($request->alat as $item) {
                 $alat = Alat::findOrFail($item['id_alat']);
 
@@ -109,7 +106,6 @@ class PeminjamanController extends Controller
                 ]);
             }
 
-        // rangkai nama alat
         $alatList = collect($request->alat)
             ->map(function ($item) {
                 $alat = Alat::find($item['id_alat']);
@@ -117,7 +113,6 @@ class PeminjamanController extends Controller
             })
             ->implode(', ');
 
-        // simpan log
         LogAktivitas::create([
             'id_user'   => $user->id_user,
             'nama_user' => $user->nama_lengkap,
@@ -150,7 +145,6 @@ class PeminjamanController extends Controller
         try {
             $peminjaman = Peminjaman::with('detail.alat')->findOrFail($id);
 
-            // DEBUG 1: cek status
             if (trim($peminjaman->status) !== 'dipinjam') {
                 return response()->json([
                     'message' => 'Status bukan dipinjam',
@@ -158,7 +152,6 @@ class PeminjamanController extends Controller
                 ], 400);
             }
 
-            // DEBUG 2: cek detail
             if ($peminjaman->detail->count() === 0) {
                 throw new \Exception('Detail peminjaman kosong');
             }
@@ -168,12 +161,10 @@ class PeminjamanController extends Controller
                     throw new \Exception('Relasi alat tidak ditemukan');
                 }
 
-                // Tambah stok
                 $detail->alat->stok += $detail->jumlah;
                 $detail->alat->save();
             }
 
-            // Update status
             $peminjaman->update([
                 'status' => 'dikembalikan',
                 'tanggal_kembali' => now()
@@ -247,9 +238,6 @@ class PeminjamanController extends Controller
 
     public function detail($id)
     {
-        // $peminjaman = Peminjaman::with(['alat', 'user'])
-        //     ->find($id);
-
         $peminjaman = Peminjaman::with([
             'user',
             'detail.alat'
