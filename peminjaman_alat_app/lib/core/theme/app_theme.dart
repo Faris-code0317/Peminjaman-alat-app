@@ -5,15 +5,18 @@ class AppColors {
   static const Color bgWhite = Color(0xFFFFFFFF);
   static const Color bgLight1 = Color(0xFFF2F3F7);
   static const Color bgLight2 = Color(0xFFEDEFF5);
+  static const Color grey1 = Color.fromARGB(255, 189, 189, 189);
+
+  static const Color black1 = Colors.black;
+
+  static const Color green1 = Color.fromARGB(255, 50, 99, 95);
 
   static const Color primaryRegister = Color(0xFFA7C1E7);
-  static const Color primaryLogin = Color(0xFFB7A7E7);
 
   static const Color error = Color(0xFFA13842);
   static const Color success = Color(0xFF41C74E);
 
   static const Color link = Colors.blue;
-
 }
 
 class AppTheme {

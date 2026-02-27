@@ -12,9 +12,12 @@ class ApiService {
     ),
   );
 
+static bool _initialized = false;
+
   static Dio get dio => _dio;
 
   static void initialize() {
+    if (_initialized) return;
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
@@ -35,5 +38,7 @@ class ApiService {
         },
       ),
     );
+
+     _initialized = true;
   }
 }

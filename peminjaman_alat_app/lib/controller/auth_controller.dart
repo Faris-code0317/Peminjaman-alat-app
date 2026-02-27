@@ -5,6 +5,9 @@ import 'package:peminjaman_alat_app/core/services/api_services.dart';
 import 'package:peminjaman_alat_app/core/services/storage_services.dart';
 import 'package:peminjaman_alat_app/core/constants/api_constants.dart';
 class AuthController extends ChangeNotifier {
+  AuthController() {
+    checkLogin();
+  }
   bool isLoading = false;
   String? errorMessage;
   bool isLoggedIn = false;

@@ -1,14 +1,16 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'controllers/auth_controller.dart';
-//
-import 'package:peminjaman_alat_app/bottomNavbar.dart';
-//
-import 'package:peminjaman_alat_app/features/auth/register_page.dart';
+import 'package:get/get.dart';
 
+import 'package:peminjaman_alat_app/features/auth/register_page.dart';
 import 'package:peminjaman_alat_app/features/auth/widgets/loginButtonOption.dart';
 import 'package:peminjaman_alat_app/features/auth/widgets/topCardHeader.dart';
+
+import 'package:peminjaman_alat_app/controller/auth_controller.dart';
+
+import 'package:peminjaman_alat_app/routes/app_routes.dart';
+
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
 class LoginPage extends StatefulWidget {
@@ -48,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                AppColors.primaryLogin,
+                AppColors.green1,
                 AppColors.bgLight1,
                 AppColors.bgLight2, 
                 AppColors.bgWhite,
@@ -62,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 topCardImage(
                   imageAsset: AppAssets.loginIcon,
-                  color: AppColors.primaryLogin,
+                  color: AppColors.green1,
                 ),
 
                 _loginForm(auth, context),
@@ -151,14 +153,14 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 3),
                 
                 if (auth.isLoading)
-                const CircularProgressIndicator()
+                const CircularProgressIndicator(color: AppColors.green1,)
                 else
                   SizedBox(
                   width: double.infinity,
                   height: 55,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryLogin,
+                      backgroundColor: AppColors.green1,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
@@ -170,12 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                           );
 
                           if (auth.isLoggedIn && context.mounted) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => HomePages(),
-                              ),
-                            );
+                            Get.offAllNamed(AppRoutes.HOME);
                           } else if (auth.errorMessage != null && context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(

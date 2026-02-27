@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'features/auth/controllers/auth_controller.dart';
+import 'controller/auth_controller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -14,28 +14,55 @@ import 'package:peminjaman_alat_app/core/services/api_services.dart';
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
 void main() async {
-  // ApiService.initialize();
-   WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init(); // WAJIB ADA INI
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
   ApiService.initialize();
-  runApp(const MyApp());
-}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final token = GetStorage().read("auth_token");
 
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
+  runApp(
+    MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthController()),
       ],
-      child: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: AppRoutes.SPLASH,
-        theme: AppTheme.lightTheme,
-        getPages: AppPages.pages,
+      child: MyApp(
+        initialRoute: token != null ? AppRoutes.HOME : AppRoutes.LOGIN,
       ),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  final String initialRoute;
+  const MyApp({super.key, required this.initialRoute});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: initialRoute,
+      getPages: AppPages.pages,
+      theme: AppTheme.lightTheme,
     );
   }
 }
+
+// class MyApp extends StatelessWidget {
+//   final String initialRoute;
+//   const MyApp({super.key, required this.initialRoute});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider(create: (_) => AuthController()),
+//       ],
+//       child: GetMaterialApp(
+//         debugShowCheckedModeBanner: false,
+//         initialRoute: initialRoute,
+//         theme: AppTheme.lightTheme,
+//         getPages: AppPages.pages,
+//       ),
+//     );
+//   }
+// }

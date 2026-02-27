@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:peminjaman_alat_app/features/auth/login_page.dart';
 import 'package:peminjaman_alat_app/features/auth/widgets/topCardHeader.dart';
-import 'package:provider/provider.dart';
-import 'controllers/auth_controller.dart';
+
+import 'package:peminjaman_alat_app/controller/auth_controller.dart';
+
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -179,7 +182,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
 
               if (auth.isLoading)
-                const CircularProgressIndicator()
+                const CircularProgressIndicator(color: AppColors.primaryRegister,)
               else
                 SizedBox(
                   width: double.infinity,

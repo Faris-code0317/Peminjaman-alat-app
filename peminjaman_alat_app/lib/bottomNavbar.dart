@@ -4,9 +4,9 @@ import 'package:floating_frosted_bottom_bar/floating_frosted_bottom_bar.dart';
 import 'package:peminjaman_alat_app/features/home/home_page.dart';
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
-import 'package:get/get.dart';
-import 'package:peminjaman_alat_app/core/services/auth_services.dart';
-import '../../../routes/app_routes.dart';
+// import 'package:get/get.dart';
+// import 'package:peminjaman_alat_app/core/services/auth_services.dart';
+// import '../../../routes/app_routes.dart';
 // import 'logo_list.dart';
 
 // void main() {
@@ -42,11 +42,11 @@ class _HomePagesState extends State<HomePages>
   late TabController tabController;
 
   final List<Color> colors = [
-    Colors.blue,
-    Colors.blue,
-    Colors.blue,
-    Colors.blue,
-    Colors.blue
+    AppColors.green1,
+    AppColors.green1,
+    AppColors.green1,
+    AppColors.green1,
+    AppColors.green1,
   ];
 
   @override
@@ -79,18 +79,6 @@ class _HomePagesState extends State<HomePages>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(
-        title: const Text("Home Page"),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await AuthService.logout();
-              Get.offAllNamed(AppRoutes.LOGIN);
-            },
-            icon: const Icon(Icons.logout),
-          )
-        ],
-      ),
       body: ClipRect(
         child: Container(
           decoration: BoxDecoration(
@@ -110,12 +98,17 @@ class _HomePagesState extends State<HomePages>
             sigmaX: 5,
             sigmaY: 5,
             child: TabBar(
-              indicatorPadding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
+              indicatorPadding: const EdgeInsets.all(6),
               controller: tabController,
-              indicator: const UnderlineTabIndicator(
-                borderSide: BorderSide(color: Colors.blue, width: 4),
-                insets: EdgeInsets.fromLTRB(16, 0, 16, 8),
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(500),
+                color: Colors.white,
               ),
+              // indicator: const UnderlineTabIndicator(
+              //   borderSide: BorderSide(color: Colors.blue, width: 4),
+              //   insets: EdgeInsets.fromLTRB(16, 0, 16, 8),
+              // ),
               tabs: [
                 TabsIcon(
                     icons: Icons.home,
