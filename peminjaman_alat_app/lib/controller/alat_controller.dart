@@ -6,6 +6,18 @@ class AlatController extends GetxController {
   var isLoading = true.obs;
   var alatList = <AlatModel>[].obs;
   var errorMessage = ''.obs;
+  var selectedKategori = <String>[].obs;
+  var filteredAlatList = <AlatModel>[].obs;
+
+  List<KategoriModel> get kategoriList {
+    final map = <int, KategoriModel>{};
+
+    for (var alat in alatList) {
+      map[alat.kategori.idKategori] = alat.kategori;
+    }
+
+    return map.values.toList();
+  }
 
   //start
    final stopwatch = Stopwatch()..start();
@@ -14,7 +26,17 @@ class AlatController extends GetxController {
   @override
   void onInit() {
     fetchData();
+    ever(alatList, (_) => updateFilteredList());
+    ever(selectedKategori, (_) => updateFilteredList());
     super.onInit();
+  }
+
+  void updateFilteredList() {
+    if (selectedKategori.isEmpty) {
+      filteredAlatList.assignAll(alatList);
+    } else {
+      filteredAlatList.assignAll(alatList.where((alat) => selectedKategori.contains(alat.kategori.namaKategori)));
+    }
   }
 
  void fetchData() async {

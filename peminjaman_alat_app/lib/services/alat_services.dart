@@ -11,9 +11,9 @@ class AlatService {
 
   static Future<List<AlatModel>> getAlat() async {
   try {
-    final token = await StorageService.getToken();
+    final stopwatch = Stopwatch()..start();
 
-    print("TOKEN DI SERVICE: $token");
+    final token = await StorageService.getToken();
 
     if (token == null) {
       throw Exception("Token kosong");
@@ -29,14 +29,17 @@ class AlatService {
       ),
     );
 
+    stopwatch.stop();
+
     final List data = response.data['data'];
 
-//
-final raw = response.toString();
-print("RESPONSE LENGTH: ${raw.length}");
-//
+    final raw = response.toString();
+
+    print("RESPONSE LENGTH: ${raw.length}");
+    print("REQUEST TIME: ${stopwatch.elapsedMilliseconds} ms");
 
     return data.map((e) => AlatModel.fromJson(e)).toList();
+
   } on DioException catch (e) {
     print("DIO ERROR: ${e.response?.statusCode}");
     print("DIO ERROR DATA: ${e.response?.data}");

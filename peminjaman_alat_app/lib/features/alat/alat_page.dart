@@ -1,51 +1,91 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:peminjaman_alat_app/core/widgets/search_widget.dart';
+import 'package:peminjaman_alat_app/features/alat/widgets/alatList_widget.dart';
+import 'package:peminjaman_alat_app/features/alat/widgets/backButton.dart';
+import 'package:peminjaman_alat_app/features/alat/widgets/dropdownFilterButton_widget.dart';
+
+import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
+
 import 'package:peminjaman_alat_app/controller/alat_controller.dart';
 
-class AlatPage extends StatelessWidget {
-  AlatPage({super.key});
+class AlatList extends StatefulWidget {
+  const AlatList({super.key});
 
-  final AlatController controller = Get.put(AlatController());
+  @override
+  State<AlatList> createState() => _AlatListState();
+}
 
+class _AlatListState extends State<AlatList> {
+  final searchController = TextEditingController();
+  final multiValueListenable = ValueNotifier<List<String>>([]);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Daftar Alat"),
-      ),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (controller.errorMessage.isNotEmpty) {
-          return Center(
-            child: Text(controller.errorMessage.value),
-          );
-        }
-
-        return ListView.builder(
-          itemCount: controller.alatList.length,
-          itemBuilder: (context, index) {
-            final alat = controller.alatList[index];
-            return Container(
+      body: ClipRect(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: AppColors.bgPage
+            )
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 children: [
-                  Image.network(
-                  alat.gambar,
-                    height: 120,
-                    fit: BoxFit.cover,
+
+                 backButton_widget(),
+
+                 Padding(
+                    padding: EdgeInsets.only(
+                      top: 15,
+                      bottom:  35
+                    ),
+                    child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.10),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: SearchField(
+                                controller: searchController,
+                                onChanged: (value) {
+                                print("Search: $value");
+                            },
+                          ), 
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      
+                      filterAlatByKategori_widget(multiValueListenable: multiValueListenable)
+                      
+                      ],
+                    ),
                   ),
-                  Text(alat.namaAlat),
-                  Text("Kategori: ${alat.kategori.namaKategori}"),
-                  Text("Stok : ${alat.stok}")
+                  
+                  AlatListWidget(alatController: Get.find<AlatController>(),),
                 ],
               ),
-            );
-          },
-        );
-      }),
-    );
+            ),
+          )
+          )
+        )
+      );
   }
 }
+
+
+

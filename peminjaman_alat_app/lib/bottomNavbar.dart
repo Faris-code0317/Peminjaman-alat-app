@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:get/get.dart';
 import 'package:floating_frosted_bottom_bar/floating_frosted_bottom_bar.dart';
+
 import 'package:peminjaman_alat_app/features/home/home_page.dart';
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
+
+import 'package:peminjaman_alat_app/core/services/auth_services.dart';
+
+import 'package:peminjaman_alat_app/routes/app_routes.dart';
 
 // import 'package:get/get.dart';
 // import 'package:peminjaman_alat_app/core/services/auth_services.dart';
@@ -44,15 +50,15 @@ class _HomePagesState extends State<HomePages>
   final List<Color> colors = [
     AppColors.green1,
     AppColors.green1,
+    // AppColors.green1,
     AppColors.green1,
-    AppColors.green1,
-    AppColors.green1,
+    // AppColors.green1,
   ];
 
   @override
   void initState() {
     currentPage = 0;
-    tabController = TabController(length: 5, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
     tabController.animation!.addListener(
       () {
         final value = tabController.animation!.value.round();
@@ -85,12 +91,7 @@ class _HomePagesState extends State<HomePages>
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [
-                AppColors.bgWhite,
-                AppColors.bgLight1,
-                AppColors.bgLight2,
-                AppColors.bgWhite
-              ]
+              colors: AppColors.bgPage
             )
           ),
           child: FrostedBottomBar(
@@ -113,18 +114,21 @@ class _HomePagesState extends State<HomePages>
                 TabsIcon(
                     icons: Icons.home,
                     color: currentPage == 0 ? colors[0] : Colors.white),
+                // TabsIcon(
+                //     icons: Icons.search,
+                //     color: currentPage == 1 ? colors[1] : Colors.white),
+                // TabsIcon(
+                //     icons: Icons.queue_play_next,
+                //     color: currentPage == 2 ? colors[2] : Colors.white),
+                // TabsIcon(
+                //     icons: Icons.file_download,
+                //     color: currentPage == 3 ? colors[3] : Colors.white),
                 TabsIcon(
-                    icons: Icons.search,
+                    icons: Icons.content_paste_search_sharp,
                     color: currentPage == 1 ? colors[1] : Colors.white),
                 TabsIcon(
-                    icons: Icons.queue_play_next,
+                    icons: Icons.person_3,
                     color: currentPage == 2 ? colors[2] : Colors.white),
-                TabsIcon(
-                    icons: Icons.file_download,
-                    color: currentPage == 3 ? colors[3] : Colors.white),
-                TabsIcon(
-                    icons: Icons.menu,
-                    color: currentPage == 4 ? colors[4] : Colors.white),
               ],
             ),
             borderRadius: BorderRadius.circular(500),
@@ -137,21 +141,16 @@ class _HomePagesState extends State<HomePages>
               children: [
                 HomePage(scrollController: controller,),
                 Center(
-                  child:ListView.builder(
-                    controller: controller,
-                    itemBuilder: (context, index) {
-                      return const Card(child: FittedBox(child: FlutterLogo()));
+                  child: 
+                  IconButton(
+                    onPressed: () async {
+                      await AuthService.logout();
+                      Get.offAllNamed(AppRoutes.LOGIN);
                     },
+                    icon: const Icon(Icons.logout),
                   ),
                 ),
-                Center(
-                  child: ListView.builder(
-                    controller: controller,
-                    itemBuilder: (context, index) {
-                      return const Card(child: FittedBox(child: FlutterLogo()));
-                    },
-                  ),
-                ),
+                // CarouselDemo(),
                 Center(
                   child:ListView.builder(
                     controller: controller,
@@ -160,14 +159,14 @@ class _HomePagesState extends State<HomePages>
                     },
                   ),
                 ),
-                Center(
-                  child:ListView.builder(
-                    controller: controller,
-                    itemBuilder: (context, index) {
-                      return const Card(child: FittedBox(child: FlutterLogo()));
-                    },
-                  ),
-                ),
+                // Center(
+                //   child:ListView.builder(
+                //     controller: controller,
+                //     itemBuilder: (context, index) {
+                //       return const Card(child: FittedBox(child: FlutterLogo()));
+                //     },
+                //   ),
+                // ),
               ],
               // children: colors
               //     .map(

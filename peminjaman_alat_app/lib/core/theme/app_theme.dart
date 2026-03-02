@@ -17,6 +17,13 @@ class AppColors {
   static const Color success = Color(0xFF41C74E);
 
   static const Color link = Colors.blue;
+
+  static const List<Color> bgPage = [
+    AppColors.bgWhite,
+    AppColors.bgLight1,
+    AppColors.bgLight2,
+    AppColors.bgWhite
+  ];
 }
 
 class AppTheme {
@@ -41,7 +48,7 @@ class AppTheme {
       filled: true,
       fillColor: AppColors.bgWhite,
       contentPadding: const EdgeInsets.symmetric(
-        vertical: 18,
+        vertical: 10,
         horizontal: 20,
       ),
       border: OutlineInputBorder(

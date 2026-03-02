@@ -7,10 +7,10 @@ class ApiConstants {
   // static const String baseUrl = "http://192.168.110.215/peminjaman-alat/public/api";
 
   //Website
-  // static const String baseUrl = "http://127.0.0.1:8000/api";
+  static const String baseUrl = "http://127.0.0.1:8000/api";
 
   //Laragon
-  static const String baseUrl = "http://peminjaman-alat.test/api";
+  // static const String baseUrl = "http://peminjaman-alat.test/api";
   
   static const String register = "/register";
   static const String login = "/login";

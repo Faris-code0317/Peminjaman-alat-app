@@ -10,7 +10,19 @@ class HomeController extends GetxController {
   var isLoading = true.obs;
   var alatList = <AlatModel>[].obs;
   var userInfo = Rxn<UserModel>();
+  RxInt selectedKategoriIndex = 0.obs;
   var errorMessage = ''.obs;
+
+  // 🔥 TAMBAHKAN INI
+  List<KategoriModel> get kategoriList {
+    final map = <int, KategoriModel>{};
+
+    for (var alat in alatList) {
+      map[alat.kategori.idKategori] = alat.kategori;
+    }
+
+    return map.values.toList();
+  }
 
   @override
   void onInit() {
@@ -18,18 +30,13 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-   Future<void> fetchHomeData() async {
+  Future<void> fetchHomeData() async {
     isLoading(true);
-
-    final stopwatch = Stopwatch()..start();
 
     final results = await Future.wait([
       AlatService.getAlat(),
       ProfileServices.getUser(),
     ]);
-
-    stopwatch.stop();
-    print("TOTAL PARALLEL FETCH: ${stopwatch.elapsedMilliseconds}");
 
     alatList.assignAll(results[0] as List<AlatModel>);
     userInfo.value = results[1] as UserModel;
