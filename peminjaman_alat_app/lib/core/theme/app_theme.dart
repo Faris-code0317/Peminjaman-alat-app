@@ -15,6 +15,7 @@ class AppColors {
 
   static const Color error = Color(0xFFA13842);
   static const Color success = Color(0xFF41C74E);
+  static const Color warning = Color.fromARGB(255, 253, 135, 38);
 
   static const Color link = Colors.blue;
 
@@ -24,7 +25,7 @@ class AppColors {
     AppColors.bgLight2,
     AppColors.bgWhite
   ];
-}
+} 
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(

@@ -4,6 +4,9 @@ import 'app_routes.dart';
 import 'package:peminjaman_alat_app/features/auth/splash_page.dart';
 import 'package:peminjaman_alat_app/features/auth/login_page.dart';
 import 'package:peminjaman_alat_app/features/alat/alat_page.dart';
+// import 'package:peminjaman_alat_app/features/alat/alatDetail_page.dart';
+
+import 'package:peminjaman_alat_app/controller/alat_controller.dart';
 
 import 'package:peminjaman_alat_app/binding/home_binding.dart';
 import 'package:peminjaman_alat_app/binding/alat_binding.dart';
@@ -23,6 +26,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.HOME,
+      // page: () => alatDetail_page(),
       page: () => HomePages(),
       bindings: [
         HomeBinding()
@@ -30,7 +34,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.ALATLIST,
-      page: () => AlatList(),
+      page: () => AlatList(alatController: AlatController(),),
       binding: AlatBinding()
     )
   ];

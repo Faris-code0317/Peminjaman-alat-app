@@ -17,6 +17,7 @@ class backButton_widget extends StatelessWidget {
       child: IconButton(
         onPressed: (){
           Get.offAllNamed(AppRoutes.HOME);
+          // Navigator.of(context).pop();
         }, 
         icon: Icon(
           Icons.arrow_back_ios,

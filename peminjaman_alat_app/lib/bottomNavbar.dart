@@ -4,8 +4,9 @@ import 'package:get/get.dart';
 import 'package:floating_frosted_bottom_bar/floating_frosted_bottom_bar.dart';
 
 import 'package:peminjaman_alat_app/features/home/home_page.dart';
-import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
+import 'package:peminjaman_alat_app/features/home/carousel.dart';
 
+import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 import 'package:peminjaman_alat_app/core/services/auth_services.dart';
 
 import 'package:peminjaman_alat_app/routes/app_routes.dart';
@@ -151,14 +152,7 @@ class _HomePagesState extends State<HomePages>
                   ),
                 ),
                 // CarouselDemo(),
-                Center(
-                  child:ListView.builder(
-                    controller: controller,
-                    itemBuilder: (context, index) {
-                      return const Card(child: FittedBox(child: FlutterLogo()));
-                    },
-                  ),
-                ),
+                MyHomePage(title: "Hello",),
                 // Center(
                 //   child:ListView.builder(
                 //     controller: controller,

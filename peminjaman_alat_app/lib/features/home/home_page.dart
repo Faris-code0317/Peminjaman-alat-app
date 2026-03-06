@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:peminjaman_alat_app/controller/alat_controller.dart';
 
 import 'package:peminjaman_alat_app/controller/home_controller.dart';
+import 'package:peminjaman_alat_app/features/alat/alat_page.dart';
 
 import 'package:peminjaman_alat_app/features/home/widgets/appBar_home.dart';
 import 'package:peminjaman_alat_app/features/home/widgets/searchBar_home.dart';
@@ -20,7 +22,7 @@ class HomePage extends StatelessWidget {
   final ScrollController scrollController;
   final HomeController Homecontroller = Get.find();
   final searchController = TextEditingController();
-  // final AlatController Alatcontroller = Get.find();
+  // final AlatController alatController = Get.find();
   // final ProfileController Profilecontroller = Get.find();
 
   @override
@@ -66,6 +68,12 @@ class HomePage extends StatelessWidget {
                       ElevatedButton(
                         onPressed: (){
                            Get.offAllNamed(AppRoutes.ALATLIST);
+                          // Navigator.push(
+                          //   context, 
+                          //   MaterialPageRoute(
+                          //     builder: (context) => AlatList(alatController: alatController),
+                          //   )
+                          // );
                         }, 
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.bgLight1,

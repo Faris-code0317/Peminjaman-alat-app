@@ -10,8 +10,14 @@ import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
 import 'package:peminjaman_alat_app/controller/alat_controller.dart';
 
+
 class AlatList extends StatefulWidget {
-  const AlatList({super.key});
+  const AlatList({
+    super.key,
+    required this.alatController,
+  });
+
+  final AlatController alatController;
 
   @override
   State<AlatList> createState() => _AlatListState();
@@ -20,18 +26,19 @@ class AlatList extends StatefulWidget {
 class _AlatListState extends State<AlatList> {
   final searchController = TextEditingController();
   final multiValueListenable = ValueNotifier<List<String>>([]);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ClipRect(
         child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: AppColors.bgPage
-            )
-          ),
+          // decoration: BoxDecoration(
+          //   gradient: LinearGradient(
+          //     begin: Alignment.topCenter,
+          //     end: Alignment.bottomCenter,
+          //     colors: AppColors.bgPage
+          //   )
+          // ),
           child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -84,8 +91,7 @@ class _AlatListState extends State<AlatList> {
           )
         )
       );
+    }
   }
-}
-
 
 
