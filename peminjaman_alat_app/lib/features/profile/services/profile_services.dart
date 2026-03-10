@@ -3,16 +3,15 @@ import 'package:peminjaman_alat_app/core/constants/api_constants.dart';
 import 'package:peminjaman_alat_app/core/services/api_services.dart';
 import 'package:peminjaman_alat_app/core/services/storage_services.dart';
 
-import 'package:peminjaman_alat_app/models/alat_model.dart';
+import 'package:peminjaman_alat_app/features/profile/model/profile_model.dart';
 
-class AlatService {
+
+class ProfileServices {
 
   static const String baseUrl = ApiConstants.baseUrl;
 
-  static Future<List<AlatModel>> getAlat() async {
+  static Future<UserModel> getUser() async {
   try {
-    final stopwatch = Stopwatch()..start();
-
     final token = await StorageService.getToken();
 
     if (token == null) {
@@ -20,7 +19,7 @@ class AlatService {
     }
 
     final response = await ApiService.dio.get(
-      ApiConstants.alat,
+      ApiConstants.me,
       options: Options(
         headers: {
           'Authorization': 'Bearer $token',
@@ -29,20 +28,11 @@ class AlatService {
       ),
     );
 
-    stopwatch.stop();
+    final data = response.data['data'];
 
-    final List data = response.data['data'];
-
-    final raw = response.toString();
-
-    print("RESPONSE LENGTH: ${raw.length}");
-    print("REQUEST TIME: ${stopwatch.elapsedMilliseconds} ms");
-
-    return data.map((e) => AlatModel.fromJson(e)).toList();
+    return UserModel.fromJson(data);
 
   } on DioException catch (e) {
-    print("DIO ERROR: ${e.response?.statusCode}");
-    print("DIO ERROR DATA: ${e.response?.data}");
     throw Exception(e.response?.data.toString());
   }
 }

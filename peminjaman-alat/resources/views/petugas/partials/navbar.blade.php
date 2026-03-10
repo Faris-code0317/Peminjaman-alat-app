@@ -6,7 +6,7 @@
     'user' => 'Data User',
     'alat' => 'Data Alat',
     'kategori' => 'Data Kategori',
-    'peminjaman-aktif' => 'Peminjaman Aktif',
+    'peminjaman-aktif' => 'Pengembalian alat',
     'peminjaman-selesai' => 'Peminjaman Selesai',
     'laporan' => 'Cetak Laporan'
   ];

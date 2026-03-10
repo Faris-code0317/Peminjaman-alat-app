@@ -665,6 +665,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:input_quantity/input_quantity.dart';
+import 'package:get/get.dart';
+
+import 'package:peminjaman_alat_app/core/services/auth_services.dart';
+
+import 'package:peminjaman_alat_app/routes/app_routes.dart';
 // import 'package:input_quantity/input_quantity.dart';
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -705,6 +710,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text(
                     'by: pmatatias.dev',
                     style: TextStyle(fontSize: 14, color: Colors.blue),
+                  ),
+                ),
+                Center(
+                  child: 
+                  IconButton(
+                    onPressed: () async {
+                      await AuthService.logout();
+                      Get.offAllNamed(AppRoutes.LOGIN);
+                    },
+                    icon: const Icon(Icons.logout),
                   ),
                 ),
                 const Divider(),

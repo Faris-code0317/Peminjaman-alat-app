@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'controller/auth_controller.dart';
+import 'features/auth/controller/auth_controller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:peminjaman_alat_app/routes/app_pages.dart';
 import 'package:peminjaman_alat_app/routes/app_routes.dart';
@@ -16,6 +17,7 @@ import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
+  await initializeDateFormatting('id_ID', null);
   ApiService.initialize();
 
   final token = GetStorage().read("auth_token");

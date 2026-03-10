@@ -4,9 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
-// import 'package:peminjaman_alat_app/features/home/home_page.dart';
-
-import 'package:peminjaman_alat_app/controller/home_controller.dart';
+import 'package:peminjaman_alat_app/features/home/controller/home_controller.dart';
 
 class KategoriTab extends StatelessWidget {
   KategoriTab({super.key});

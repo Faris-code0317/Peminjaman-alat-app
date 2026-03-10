@@ -138,6 +138,55 @@ class PeminjamanController extends Controller
         }
     }
 
+    public function ajukanPengembalian($id)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $user = request()->user();
+
+            $peminjaman = Peminjaman::with('detail.alat')
+                ->where('id_user', $user->id_user)
+                ->findOrFail($id);
+
+            if ($peminjaman->status !== 'dipinjam') {
+                return response()->json([
+                    'message' => 'Peminjaman tidak dalam status dipinjam'
+                ], 400);
+            }
+
+            $peminjaman->update([
+                'status' => 'pengembalian',
+                'tanggal_pengajuan_pengembalian' => Carbon::now('Asia/Jakarta')
+            ]);
+
+            LogAktivitas::create([
+                'id_user'   => $user->id_user,
+                'nama_user' => $user->nama_lengkap,
+                'role'      => $user->role,
+                'aktivitas' => 'Ajukan Pengembalian',
+                'keterangan'=> 'Mengajukan pengembalian peminjaman ID ' . $peminjaman->id_peminjaman,
+                'created_at'=> Carbon::now('Asia/Jakarta')
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Pengembalian berhasil diajukan'
+            ]);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function kembalikan($id)
     {
         DB::beginTransaction();
@@ -261,7 +310,7 @@ class PeminjamanController extends Controller
     {
         $user = $request->user();
 
-        $allowedStatus = ['menunggu', 'dipinjam', 'dikembalikan', 'ditolak'];
+        $allowedStatus = ['menunggu', 'dipinjam', "pengembalian", 'dikembalikan', 'ditolak'];
 
         if (!in_array($status, $allowedStatus)) {
             return response()->json([
@@ -277,6 +326,15 @@ class PeminjamanController extends Controller
             ->orderBy('tanggal_pinjam', 'desc')
             ->get();
 
+        $data->transform(function ($peminjaman) {
+            foreach ($peminjaman->detail as $detail) {
+                if ($detail->alat && $detail->alat->gambar) {
+                    $detail->alat->gambar = url('/api/image/' . $detail->alat->gambar);
+                }
+            }
+            return $peminjaman;
+        });
+
         return response()->json([
             'success' => true,
             'status' => $status,
@@ -284,5 +342,4 @@ class PeminjamanController extends Controller
             'data' => $data
         ]);
     }
-
 }

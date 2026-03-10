@@ -38,6 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // ================= USER =================
     Route::get('/alat', [AlatController::class, 'index']);
     Route::post('/peminjaman', [PeminjamanController::class, 'store']);
+    Route::put('/peminjaman/{id}/ajukan-pengembalian', [PeminjamanController::class, 'ajukanPengembalian']);
     Route::get('/peminjaman/user/{id}', [PeminjamanController::class, 'byUser']);
     Route::get('/peminjaman/status/{status}', [PeminjamanController::class, 'byStatus']);
     Route::get('/me', [UserApiController::class, 'me']);

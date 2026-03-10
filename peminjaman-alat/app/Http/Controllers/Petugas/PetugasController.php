@@ -77,7 +77,7 @@ class PetugasController extends Controller
 
         $peminjaman = Peminjaman::orderBy('created_at', 'desc')
             ->with(['user', 'detail.alat'])
-            ->whereIn('status', ['dipinjam'])
+            ->whereIn('status', ['pengembalian'])
             ->when($search, function ($q) use ($search) {
                 $search = strtolower($search);
                 $q->whereHas('user', function ($u) use ($search) {
@@ -202,28 +202,65 @@ class PetugasController extends Controller
 
 
     // 🔁 PENGEMBALIAN
+    public function peminjamanPengembalian(Request $request)
+    {
+        $search = $request->search;
+
+        $peminjaman = Peminjaman::orderBy('created_at', 'desc')
+            ->with(['user', 'detail.alat'])
+            ->where('status', 'pengembalian')
+            ->when($search, function ($q) use ($search) {
+                $search = strtolower($search);
+                $q->whereHas('user', function ($u) use ($search) {
+                    $u->whereRaw('LOWER(nama_lengkap) LIKE ?', ["%{$search}%"]);
+                });
+            })
+            ->paginate(10)
+            ->withQueryString();
+
+        $alat = Alat::all();
+
+        return view('petugas.peminjaman.aktif', compact('peminjaman', 'alat'));
+    }
+
     public function kembalikan($id)
     {
-        $peminjaman = Peminjaman::with('detail.alat')->findOrFail($id);
+        DB::beginTransaction();
 
-        $peminjaman->update([
-            'status' => 'dikembalikan',
-            'tanggal_kembali' => Carbon::now('Asia/Jakarta')
-        ]);
+        try {
 
-        // stok alat balik
-        foreach ($peminjaman->detail as $d) {
-            $d->alat->increment('stok', $d->jumlah);
+            $peminjaman = Peminjaman::with('detail.alat')->findOrFail($id);
+
+            if ($peminjaman->status !== 'pengembalian') {
+                return back()->with('error', 'Pengembalian belum diajukan oleh user');
+            }
+
+            $peminjaman->update([
+                'status' => 'dikembalikan',
+                'tanggal_kembali' => Carbon::now('Asia/Jakarta')
+            ]);
+
+            foreach ($peminjaman->detail as $d) {
+                $d->alat->increment('stok', $d->jumlah);
+            }
+
+            logAktivitas(
+                session('user'),
+                'Konfirmasi Pengembalian',
+                'Mengkonfirmasi pengembalian peminjaman ID ' . $peminjaman->id_peminjaman
+            );
+
+            DB::commit();
+
+            return redirect('/petugas/peminjaman-aktif')
+                ->with('success', 'Pengembalian berhasil dikonfirmasi');
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return back()->with('error', $e->getMessage());
         }
-
-        logAktivitas(
-            session('user'),
-            'Pengembalian',
-            'Mengembalikan peminjaman ID ' . $peminjaman->id_peminjaman
-        );
-
-        return redirect('/petugas/peminjaman-aktif')
-            ->with('success', 'Barang berhasil dikembalikan');
     }
 
     // ❌ TOLAK PEMINJAMAN

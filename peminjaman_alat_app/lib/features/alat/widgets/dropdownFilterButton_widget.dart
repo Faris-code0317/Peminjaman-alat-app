@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
-import 'package:peminjaman_alat_app/controller/alat_controller.dart';
+import 'package:peminjaman_alat_app/features/alat/controller/alat_controller.dart';
 
 class filterAlatByKategori_widget extends StatelessWidget {
   const filterAlatByKategori_widget({

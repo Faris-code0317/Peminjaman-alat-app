@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 
-import 'package:peminjaman_alat_app/models/user_model.dart';
-import 'package:peminjaman_alat_app/models/alat_model.dart';
+import 'package:peminjaman_alat_app/features/profile/model/profile_model.dart';
+import 'package:peminjaman_alat_app/features/alat/model/alat_model.dart';
 
-import 'package:peminjaman_alat_app/services/profile_services.dart';
-import 'package:peminjaman_alat_app/services/alat_services.dart';
+import 'package:peminjaman_alat_app/features/profile/services/profile_services.dart';
+import 'package:peminjaman_alat_app/features/alat/services/alat_services.dart';
 
 class HomeController extends GetxController {
   var isLoading = true.obs;

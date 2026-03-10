@@ -52,6 +52,13 @@ class _loginButtonOptionState extends State<loginButtonOption> {
                     ),
                     color: AppColors.bgWhite,
                     borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.black1.withOpacity(0.15),
+                        blurRadius: 10,
+                        offset: Offset(0, 4)
+                      )
+                    ]
                   ),
                   child: const Icon(
                     FontAwesomeIcons.google,
@@ -71,6 +78,13 @@ class _loginButtonOptionState extends State<loginButtonOption> {
                     ),
                     color: AppColors.bgWhite,
                     borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.black1.withOpacity(0.15),
+                        blurRadius: 10,
+                        offset: Offset(0, 4)
+                      )
+                    ]
                   ),
                   child: const Icon(
                     FontAwesomeIcons.twitter,
@@ -90,6 +104,13 @@ class _loginButtonOptionState extends State<loginButtonOption> {
                     ),
                     color: AppColors.bgWhite,
                     borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.black1.withOpacity(0.15),
+                        blurRadius: 10,
+                        offset: Offset(0, 4)
+                      )
+                    ]
                   ),
                   child: const Icon(
                     FontAwesomeIcons.facebook,

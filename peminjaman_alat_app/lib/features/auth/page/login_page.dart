@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 
-import 'package:peminjaman_alat_app/features/auth/register_page.dart';
+import 'package:peminjaman_alat_app/features/auth/page/register_page.dart';
 import 'package:peminjaman_alat_app/features/auth/widgets/loginButtonOption.dart';
 import 'package:peminjaman_alat_app/features/auth/widgets/topCardHeader.dart';
 
-import 'package:peminjaman_alat_app/controller/auth_controller.dart';
+import 'package:peminjaman_alat_app/features/auth/controller/auth_controller.dart';
 
 import 'package:peminjaman_alat_app/routes/app_routes.dart';
 

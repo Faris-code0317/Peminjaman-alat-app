@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:peminjaman_alat_app/controller/alat_controller.dart';
+import 'package:peminjaman_alat_app/features/alat/controller/alat_controller.dart';
 
-import 'package:peminjaman_alat_app/controller/home_controller.dart';
-import 'package:peminjaman_alat_app/features/alat/alat_page.dart';
+import 'package:peminjaman_alat_app/features/home/controller/home_controller.dart';
+import 'package:peminjaman_alat_app/features/alat/page/alat_page.dart';
 
 import 'package:peminjaman_alat_app/features/home/widgets/appBar_home.dart';
 import 'package:peminjaman_alat_app/features/home/widgets/searchBar_home.dart';

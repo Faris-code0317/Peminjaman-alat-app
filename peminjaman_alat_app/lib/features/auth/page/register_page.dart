@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:peminjaman_alat_app/features/auth/login_page.dart';
+import 'package:peminjaman_alat_app/features/auth/page/login_page.dart';
 import 'package:peminjaman_alat_app/features/auth/widgets/topCardHeader.dart';
 
-import 'package:peminjaman_alat_app/controller/auth_controller.dart';
+import 'package:peminjaman_alat_app/features/auth/controller/auth_controller.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
+import 'package:peminjaman_alat_app/core/utils/helpers.dart';
 
-import 'package:peminjaman_alat_app/features/alat/alatDetail_page.dart';
+import 'package:peminjaman_alat_app/features/alat/page/alatDetail_page.dart';
 
-import 'package:peminjaman_alat_app/controller/alat_controller.dart';
+import 'package:peminjaman_alat_app/features/alat/controller/alat_controller.dart';
 class AlatListWidget extends StatelessWidget {
   const AlatListWidget({
     super.key,
@@ -90,7 +91,7 @@ class AlatListWidget extends StatelessWidget {
                       children: [
                         Align(
                           alignment: Alignment.center,
-                          child: Image.network(alat.gambar,
+                          child: Image.network(getImageUrl(alat.gambar),
                               height: 120),
                         ),
                         SizedBox(height: 15,),

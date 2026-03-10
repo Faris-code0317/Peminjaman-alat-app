@@ -84,7 +84,7 @@ function showTolakForm(id) {
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stok Saat Ini</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Permintaan</th>
-                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Disetujui</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Peminjaman</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gambar</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
@@ -141,7 +141,7 @@ function showTolakForm(id) {
                         @endforeach
                       </td>
                       <td class="text-center">
-                        <form action="/petugas/peminjaman-aktif/{{ $p->id_peminjaman }}/kembalikan"
+                        <form action="/petugas/peminjaman-pengembalian/{{ $p->id_peminjaman }}/konfirmasi"
                               method="POST"
                               style="display: inline"
                               class="form-kembalikan">

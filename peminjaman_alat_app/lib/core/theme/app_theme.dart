@@ -5,7 +5,9 @@ class AppColors {
   static const Color bgWhite = Color(0xFFFFFFFF);
   static const Color bgLight1 = Color(0xFFF2F3F7);
   static const Color bgLight2 = Color(0xFFEDEFF5);
+
   static const Color grey1 = Color.fromARGB(255, 189, 189, 189);
+  static const Color grey2 = Color.fromARGB(255, 206, 205, 205);
 
   static const Color black1 = Colors.black;
 
@@ -80,4 +82,5 @@ class AppTheme {
 class AppAssets {
   static const ImageProvider loginIcon = AssetImage("assets/icons/1.png");
   static const ImageProvider regisIcon = AssetImage("assets/icons/2.png");
+  static const ImageProvider notFoundIcon = AssetImage("assets/icons/3.png");
 }

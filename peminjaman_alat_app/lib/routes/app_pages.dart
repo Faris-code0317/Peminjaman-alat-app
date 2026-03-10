@@ -1,15 +1,15 @@
 import 'package:get/get.dart';
 import 'app_routes.dart';
 
-import 'package:peminjaman_alat_app/features/auth/splash_page.dart';
-import 'package:peminjaman_alat_app/features/auth/login_page.dart';
-import 'package:peminjaman_alat_app/features/alat/alat_page.dart';
+import 'package:peminjaman_alat_app/features/auth/page/splash_page.dart';
+import 'package:peminjaman_alat_app/features/auth/page/login_page.dart';
+import 'package:peminjaman_alat_app/features/alat/page/alat_page.dart';
 // import 'package:peminjaman_alat_app/features/alat/alatDetail_page.dart';
 
-import 'package:peminjaman_alat_app/controller/alat_controller.dart';
+import 'package:peminjaman_alat_app/features/alat/controller/alat_controller.dart';
 
-import 'package:peminjaman_alat_app/binding/home_binding.dart';
-import 'package:peminjaman_alat_app/binding/alat_binding.dart';
+import 'package:peminjaman_alat_app/features/home/binding/home_binding.dart';
+import 'package:peminjaman_alat_app/features/alat/binding/alat_binding.dart';
 // import 'package:peminjaman_alat_app/binding/profile_binding.dart';
 
 import 'package:peminjaman_alat_app/bottomNavbar.dart';

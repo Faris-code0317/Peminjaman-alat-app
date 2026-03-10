@@ -5,9 +5,10 @@ import 'package:peminjaman_alat_app/features/alat/widgets/alatList_widget.dart';
 import 'package:peminjaman_alat_app/features/alat/widgets/backButton.dart';
 import 'package:peminjaman_alat_app/features/alat/widgets/peminjamanBottomSheet_widget.dart';
 
-import 'package:peminjaman_alat_app/controller/alat_controller.dart';
+import 'package:peminjaman_alat_app/features/alat/controller/alat_controller.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
+import 'package:peminjaman_alat_app/core/utils/helpers.dart';
 
 class alatDetail_page extends StatefulWidget {
   alatDetail_page({
@@ -81,7 +82,7 @@ class _alatDetail_pageState extends State<alatDetail_page> {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                            widget.gambar
+                            getImageUrl(widget.gambar)
                           )
                         )
                       ),

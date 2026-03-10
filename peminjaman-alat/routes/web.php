@@ -80,7 +80,8 @@ Route::middleware(['login', 'petugas'])->group(function () {
     Route::post('/petugas/peminjaman/{id}/tolak', [PetugasController::class, 'tolak']);
 
     Route::get('/petugas/peminjaman-aktif', [PetugasController::class, 'peminjamanAktif'])->name('petugas.peminjaman.aktif');
-    Route::post('/petugas/peminjaman-aktif/{id}/kembalikan', [PetugasController::class, 'kembalikan']);
+    Route::post('/petugas/peminjaman-pengembalian/{id}/konfirmasi', [PetugasController::class, 'kembalikan']);
+    // Route::post('/petugas/peminjaman-aktif/{id}/kembalikan', [PetugasController::class, 'kembalikan']);
 
     Route::get('/petugas/peminjaman-selesai', [PetugasController::class, 'peminjamanSelesai'])->name('petugas.peminjaman.selesai');
 });

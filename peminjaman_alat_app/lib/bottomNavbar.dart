@@ -3,7 +3,8 @@ import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import 'package:floating_frosted_bottom_bar/floating_frosted_bottom_bar.dart';
 
-import 'package:peminjaman_alat_app/features/home/home_page.dart';
+import 'package:peminjaman_alat_app/features/home/page/home_page.dart';
+import 'package:peminjaman_alat_app/features/status/page/status_page.dart';
 import 'package:peminjaman_alat_app/features/home/carousel.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
@@ -141,16 +142,7 @@ class _HomePagesState extends State<HomePages>
               physics: const BouncingScrollPhysics(),
               children: [
                 HomePage(scrollController: controller,),
-                Center(
-                  child: 
-                  IconButton(
-                    onPressed: () async {
-                      await AuthService.logout();
-                      Get.offAllNamed(AppRoutes.LOGIN);
-                    },
-                    icon: const Icon(Icons.logout),
-                  ),
-                ),
+                StatusPage(),
                 // CarouselDemo(),
                 MyHomePage(title: "Hello",),
                 // Center(

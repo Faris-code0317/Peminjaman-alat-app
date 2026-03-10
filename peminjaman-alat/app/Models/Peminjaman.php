@@ -13,6 +13,7 @@ class Peminjaman extends Model
         'id_user',
         'tanggal_pinjam',
         'tanggal_kembali',
+        'tanggal_pengajuan_pengembalian',
         'status',
         'alasan_ditolak'
     ];
@@ -20,7 +21,8 @@ class Peminjaman extends Model
     protected $casts = [
         'tanggal_pinjam' => 'datetime',
         'tanggal_kembali' => 'datetime',
-        'tanggal_disetujui' => 'datetime'
+        'tanggal_disetujui' => 'datetime',
+        'tanggal_pengajuan_peminjaman' => 'datetime'
     ];
 
     public function detail()
