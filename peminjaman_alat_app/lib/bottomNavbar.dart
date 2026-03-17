@@ -3,39 +3,18 @@ import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import 'package:floating_frosted_bottom_bar/floating_frosted_bottom_bar.dart';
 
+import 'package:peminjaman_alat_app/features/home/controller/home_controller.dart';
+import 'package:peminjaman_alat_app/features/status/controller/status_controller.dart';
+import 'package:peminjaman_alat_app/features/profile/controller/profile_controller.dart';
+
 import 'package:peminjaman_alat_app/features/home/page/home_page.dart';
 import 'package:peminjaman_alat_app/features/status/page/status_page.dart';
-import 'package:peminjaman_alat_app/features/home/carousel.dart';
+import 'package:peminjaman_alat_app/features/profile/page/profile_page.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 import 'package:peminjaman_alat_app/core/services/auth_services.dart';
 
 import 'package:peminjaman_alat_app/routes/app_routes.dart';
-
-// import 'package:get/get.dart';
-// import 'package:peminjaman_alat_app/core/services/auth_services.dart';
-// import '../../../routes/app_routes.dart';
-// import 'logo_list.dart';
-
-// void main() {
-//   runApp(const MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Frosted bottom bar',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: const MyHomePage(title: 'Frosted bottom bar'),
-//     );
-//   }
-// }
 
 class HomePages extends StatefulWidget {
   const HomePages({Key? key}) : super(key: key);
@@ -59,6 +38,11 @@ class _HomePagesState extends State<HomePages>
 
   @override
   void initState() {
+    Get.put(StatusController());
+    // Get.lazyPut<StatusController>(() => StatusController());
+    Get.put(HomeController());
+    // Get.lazyPut<HomeController>(() => HomeController());
+    Get.put(ProfileController());
     currentPage = 0;
     tabController = TabController(length: 3, vsync: this);
     tabController.animation!.addListener(
@@ -143,8 +127,9 @@ class _HomePagesState extends State<HomePages>
               children: [
                 HomePage(scrollController: controller,),
                 StatusPage(),
+                ProfilePage(),
                 // CarouselDemo(),
-                MyHomePage(title: "Hello",),
+                // MyHomePage(title: "Hello",),
                 // Center(
                 //   child:ListView.builder(
                 //     controller: controller,

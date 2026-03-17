@@ -37,8 +37,20 @@ class AuthService {
     );
   }
 
+  // static Future<void> logout() async {
+  //   await ApiService.dio.post(ApiConstants.logout);
+  //   await StorageService.deleteToken();
+  // }
+
   static Future<void> logout() async {
-    await ApiService.dio.post(ApiConstants.logout);
     await StorageService.deleteToken();
+    ApiService.dio.post(ApiConstants.logout).catchError((e) => print("Logout API gagal: $e"));
+  }
+
+  static Future<Response> refreshToken() async {
+    final response = await ApiService.dio.post(ApiConstants.refresh);
+    final token = response.data['token'];
+    await StorageService.saveToken(token);
+    return response;
   }
 }

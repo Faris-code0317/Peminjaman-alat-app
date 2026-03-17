@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
@@ -14,7 +15,8 @@ import 'package:peminjaman_alat_app/features/status/model/status_model.dart';
 class StatusListWidget extends StatelessWidget {
   StatusListWidget({super.key});
 
-  final StatusController controller = Get.find();
+  // final StatusController controller = Get.find();
+  final controller = Get.find<StatusController>();
 
   Color getStatusColor(String status) {
     switch (status) {
@@ -54,11 +56,20 @@ class StatusListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
       itemCount: controller.statusList.length,
       itemBuilder: (context, index) {
 
         final data = controller.statusList[index];
+
+        if (data.detail.isEmpty) {
+          return Container(
+            margin: const EdgeInsets.only(bottom: 15),
+            padding: const EdgeInsets.all(15),
+            child: const Text("Detail alat tidak tersedia"),
+          );
+        }
+
         final detail = data.detail.first;
         final alat = detail.alat;
 
@@ -92,7 +103,7 @@ class StatusListWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.06),
+                  color: Colors.black.withOpacity(0.25),
                   blurRadius: 12,
                   offset: const Offset(0, 5),
                 ),
@@ -108,20 +119,26 @@ class StatusListWidget extends StatelessWidget {
           
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        getImageUrl(alat.gambar),
+                      child: CachedNetworkImage(
+                        imageUrl: getImageUrl(alat.gambar),
                         width: 70,
                         height: 70,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            width: 70,
-                            height: 70,
-                            color: Colors.grey[300],
-                            child: const Icon(Icons.image_not_supported),
-                          );
-                        },
-                      ),
+
+                        placeholder: (context, url) => Container(
+                          width: 70,
+                          height: 70,
+                          alignment: Alignment.center,
+                          child: const CircularProgressIndicator(strokeWidth: 2),
+                        ),
+
+                        errorWidget: (context, url, error) => Container(
+                          width: 70,
+                          height: 70,
+                          color: Colors.grey[300],
+                          child: const Icon(Icons.image_not_supported),
+                        ),
+                      )
                     ),
           
                     const SizedBox(width: 15),
@@ -197,6 +214,71 @@ class StatusListWidget extends StatelessWidget {
                     ),
                   ],
                 ),
+
+                if (data.status == "dipinjam") ...[
+                  const SizedBox(height: 15),
+
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black1.withOpacity(0.15),
+                          blurRadius: 10,
+                          offset: Offset(0, 4)
+                        )
+                      ]
+                    ),
+                    child: ElevatedButton(
+                      onPressed: (){}, 
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.success,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.circular(25)
+                        )
+                      ),
+                      child: Text(
+                        "Ajukan pengembalian",
+                        style: TextStyle(
+                          color: AppColors.bgWhite
+                        ),
+                      )
+                    )
+                  ),
+                ],
+
+                if (data.status == "dikembalikan" && data.tanggalKembali != null) ...[
+                  const SizedBox(height: 15),
+
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: AppColors.green1.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      children: [
+
+                        const Icon(
+                          Icons.done_outline,
+                          color: AppColors.green1,
+                        ),
+
+                        const SizedBox(width: 8),
+
+                        Expanded(
+                          child: Text(
+                            "Peminjaman selesai pada tanggal ${DateFormatter.dateTime("${data.tanggalKembali}")}",
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: AppColors.green1,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
           
                 if (data.status == "ditolak" && data.alasanDitolak != null) ...[
                   const SizedBox(height: 12),
@@ -268,12 +350,26 @@ class StatusListWidget extends StatelessWidget {
 
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.network(
-                    getImageUrl(alat.gambar),
-                    width: 140,
-                    height: 140,
+                  child: CachedNetworkImage(
+                    imageUrl: getImageUrl(alat.gambar),
+                    width: 70,
+                    height: 70,
                     fit: BoxFit.cover,
-                  ),
+
+                    placeholder: (context, url) => Container(
+                      width: 70,
+                      height: 70,
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(strokeWidth: 2),
+                    ),
+
+                    errorWidget: (context, url, error) => Container(
+                      width: 70,
+                      height: 70,
+                      color: Colors.grey[300],
+                      child: const Icon(Icons.image_not_supported),
+                    ),
+                  )
                 ),
 
                 const SizedBox(height: 15),
@@ -451,6 +547,38 @@ class StatusListWidget extends StatelessWidget {
                     ),
                   ],
                 ),
+
+                if (data.status == "dikembalikan" && data.tanggalKembali != null) ...[
+                  const SizedBox(height: 15),
+
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: AppColors.green1.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      children: [
+
+                        const Icon(
+                          Icons.done_outline,
+                          color: AppColors.green1,
+                        ),
+
+                        const SizedBox(width: 8),
+
+                        Expanded(
+                          child: Text(
+                            "Peminjaman selesai pada tanggal ${DateFormatter.dateTime("${data.tanggalKembali}")}",
+                            style: const TextStyle(
+                              color: AppColors.green1,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
 
                 if (data.status == "ditolak" && data.alasanDitolak != null) ...[
                   const SizedBox(height: 15),

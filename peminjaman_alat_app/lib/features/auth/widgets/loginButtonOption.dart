@@ -15,26 +15,42 @@ class loginButtonOption extends StatefulWidget {
 class _loginButtonOptionState extends State<loginButtonOption> {
   bool _isVisible = false;
 
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   Future.delayed(Duration(milliseconds: 100), () {
+  //     setState(() {
+  //       _isVisible = true;
+  //     });
+  //   });
+  // }
+
   @override
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(milliseconds: 100), () {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
       setState(() {
         _isVisible = true;
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    return AnimatedSlide(
+    return 
+    AnimatedSlide(
       offset: _isVisible ? Offset.zero : Offset(0, 0.5),
       duration: Duration(milliseconds: 2000),
       curve: Curves.easeOut,
       child: AnimatedOpacity(
         opacity: _isVisible ? 1 : 0,
         duration: Duration(milliseconds: 2000),
-        child: Container(
+        child: 
+        Container(
           width: double.infinity,
           height: 90,
           child: Row(

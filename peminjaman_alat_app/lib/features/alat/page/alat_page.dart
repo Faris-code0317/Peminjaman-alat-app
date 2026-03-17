@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/services.dart';
 
 import 'package:peminjaman_alat_app/core/widgets/search_widget.dart';
 import 'package:peminjaman_alat_app/features/alat/widgets/alatList_widget.dart';
@@ -29,7 +30,16 @@ class _AlatListState extends State<AlatList> {
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
+
     return Scaffold(
+      backgroundColor: AppColors.bgWhite,
       body: ClipRect(
         child: Container(
           // decoration: BoxDecoration(
@@ -41,16 +51,35 @@ class _AlatListState extends State<AlatList> {
           // ),
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                 backButton_widget(),
+                  Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: AppColors.bgWhite,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.black1.withOpacity(0.15),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ]
+                      ),
+                      child: Align(
+                      alignment: Alignment.topLeft,
+                      child: backButton_widget()
+                    ),
+                  ),
 
                  Padding(
                     padding: EdgeInsets.only(
                       top: 15,
-                      bottom:  35
+                      bottom:  20
                     ),
                     child: Row(
                     children: [
@@ -75,7 +104,6 @@ class _AlatListState extends State<AlatList> {
                           ), 
                         ),
                       ),
-                      const SizedBox(width: 10),
                       
                       filterAlatByKategori_widget(multiValueListenable: multiValueListenable)
                       

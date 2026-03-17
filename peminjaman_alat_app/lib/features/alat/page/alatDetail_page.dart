@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/services.dart';
 
 import 'package:peminjaman_alat_app/features/alat/widgets/alatList_widget.dart';
 import 'package:peminjaman_alat_app/features/alat/widgets/backButton.dart';
@@ -49,6 +51,13 @@ class _alatDetail_pageState extends State<alatDetail_page> {
 
   // final alatList = widget.alatController.filteredAlatList;
 
+  SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
+
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -81,9 +90,7 @@ class _alatDetail_pageState extends State<alatDetail_page> {
                         ],
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(
-                            getImageUrl(widget.gambar)
-                          )
+                          image: CachedNetworkImageProvider(getImageUrl(widget.gambar))
                         )
                       ),
                     ),

@@ -67,7 +67,7 @@ class PeminjamanController extends Controller
             // Validasi Duplikat
             foreach ($request->alat as $item) {
                 $exists = Peminjaman::where('id_user', $user->id_user)
-                        ->whereIn('status', ['menunggu', 'dipinjam'])
+                        ->whereIn('status', ['menunggu', 'dipinjam', 'pengembalian'])
                         ->whereHas('detail', function ($q) use ($item) {
                             $q->where('id_alat', $item['id_alat']);
                         })
@@ -326,10 +326,18 @@ class PeminjamanController extends Controller
             ->orderBy('tanggal_pinjam', 'desc')
             ->get();
 
+        // $data->transform(function ($peminjaman) {
+        //     foreach ($peminjaman->detail as $detail) {
+        //         if ($detail->alat && $detail->alat->gambar) {
+        //             $detail->alat->gambar = url('/api/image/' . $detail->alat->gambar);
+        //         }
+        //     }
+        //     return $peminjaman;
+        // });
         $data->transform(function ($peminjaman) {
             foreach ($peminjaman->detail as $detail) {
                 if ($detail->alat && $detail->alat->gambar) {
-                    $detail->alat->gambar = url('/api/image/' . $detail->alat->gambar);
+                    $detail->alat->gambar = $detail->alat->gambar;
                 }
             }
             return $peminjaman;

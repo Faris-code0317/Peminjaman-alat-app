@@ -48,7 +48,7 @@ class _HomeCarouselState extends State<HomeCarousel> {
                     borderRadius: BorderRadius.circular(15),
                      boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: Colors.black.withOpacity(0.15),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                      ),
@@ -56,7 +56,7 @@ class _HomeCarouselState extends State<HomeCarousel> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: Image.network(
+                    child: Image.asset(
                       entry.value,
                       fit: BoxFit.fitWidth,
                       width: double.infinity,

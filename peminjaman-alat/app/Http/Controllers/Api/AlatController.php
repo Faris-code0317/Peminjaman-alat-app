@@ -12,8 +12,12 @@ class AlatController extends Controller
     {
         $alat = Alat::with('kategori')->get();
 
+        // $alat->transform(function ($item) {
+        //     $item->gambar = url('/api/image/' . $item->gambar);
+        //     return $item;
+        // });
         $alat->transform(function ($item) {
-            $item->gambar = url('/api/image/' . $item->gambar);
+            $item->gambar;
             return $item;
         });
 

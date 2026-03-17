@@ -36,6 +36,11 @@ class StatusModel {
       detail: List<DetailModel>.from(
         json["detail"].map((x) => DetailModel.fromJson(x)),
       ),
+      // detail: json["detail"] == null
+      // ? []
+      // : List<DetailModel>.from(
+      //     json["detail"].map((x) => DetailModel.fromJson(x)),
+      // ),
     );
   }
 }

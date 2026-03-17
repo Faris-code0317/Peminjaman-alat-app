@@ -8,7 +8,7 @@ import 'package:peminjaman_alat_app/features/profile/model/profile_model.dart';
 
 class ProfileServices {
 
-  static const String baseUrl = ApiConstants.baseUrl;
+  static String baseUrl = ApiConstants.baseUrl;
 
   static Future<UserModel> getUser() async {
   try {

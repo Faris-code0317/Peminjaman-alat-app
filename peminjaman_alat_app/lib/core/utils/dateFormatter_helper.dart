@@ -21,6 +21,11 @@ class DateFormatter {
     return DateFormat('HH:mm:ss', 'id_ID').format(parsed);
   }
 
+  static String dateTime(String date) {
+    final parsed = parse(date);
+    return DateFormat('dd MMM yyyy', 'id_ID').format(parsed);
+  }
+
   static String dateTimeFull(String date) {
     final parsed = parse(date);
     return DateFormat('dd MMM yyyy • HH:mm:ss', 'id_ID').format(parsed);

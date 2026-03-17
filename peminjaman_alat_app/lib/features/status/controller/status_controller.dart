@@ -5,6 +5,7 @@ import 'package:peminjaman_alat_app/features/status/services/status_services.dar
 class StatusController extends GetxController {
 
   var isLoading = false.obs;
+  var isFirstLoad = true.obs;
   var statusList = <StatusModel>[].obs;
 
   RxInt selectedStatusIndex = 0.obs;
@@ -20,16 +21,22 @@ class StatusController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchStatus(statusTab[0]);
+
+    Future.microtask((){
+       fetchStatus(statusTab[0]);
+    });
   }
 
   Future<void> fetchStatus(String status) async {
-
     try {
 
-      isLoading(true);
+      isLoading.value = true;
+
+      print("FETCH STATUS: $status");
 
       final result = await StatusServices.getStatus(status);
+
+      print("DATA STATUS: ${result.length}");
 
       statusList.assignAll(result);
 
@@ -41,16 +48,18 @@ class StatusController extends GetxController {
 
     } finally {
 
-      isLoading(false);
+      isLoading.value = false;
+      isFirstLoad.value = false;
 
     }
   }
 
-  void changeTab(int index) {
+  void changeTab(int index) async {
+
+    if (selectedStatusIndex.value == index) return;
 
     selectedStatusIndex.value = index;
 
-    fetchStatus(statusTab[index]);
-
+    await fetchStatus(statusTab[index]);
   }
 }

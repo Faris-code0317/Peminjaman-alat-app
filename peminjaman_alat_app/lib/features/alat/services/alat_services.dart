@@ -7,7 +7,7 @@ import 'package:peminjaman_alat_app/features/alat/model/alat_model.dart';
 
 class AlatService {
 
-  static const String baseUrl = ApiConstants.baseUrl;
+  static String baseUrl = ApiConstants.baseUrl;
 
   static Future<List<AlatModel>> getAlat() async {
   try {

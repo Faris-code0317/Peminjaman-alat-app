@@ -4,10 +4,13 @@ import 'features/auth/controller/auth_controller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:peminjaman_alat_app/routes/app_pages.dart';
 import 'package:peminjaman_alat_app/routes/app_routes.dart';
+
 import 'package:peminjaman_alat_app/core/services/api_services.dart';
+import 'package:peminjaman_alat_app/core/config/app_config.dart';
 
 // import 'package:peminjaman_alat_app/features/alat/controllers/alat_controller.dart';
 // import 'features/auth/login_page.dart';
@@ -16,11 +19,15 @@ import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await GetStorage.init();
   await initializeDateFormatting('id_ID', null);
   ApiService.initialize();
 
   final token = GetStorage().read("auth_token");
+
+  print("API URL: ${AppConfig.baseUrl}");
+  print("TOKEN DI MAIN: $token");
 
   runApp(
     MultiProvider(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:peminjaman_alat_app/core/utils/helpers.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:peminjaman_alat_app/features/home/controller/home_controller.dart';
 // import 'package:peminjaman_alat_app/controller/alat_controller.dart';
@@ -92,15 +94,32 @@ class KategoriList extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(8, 0, 8, 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Align(
                       alignment: Alignment.center,
-                      child: Image.network(
-                          alat.gambar,
-                          height: 120
-                        ),
+                      child: CachedNetworkImage(
+                          imageUrl: getImageUrl(alat.gambar),
+                          width: 70,
+                          height: 70,
+                          fit: BoxFit.cover,
+
+                          placeholder: (context, url) => Container(
+                            width: 70,
+                            height: 70,
+                            alignment: Alignment.center,
+                            child: const CircularProgressIndicator(strokeWidth: 2),
+                          ),
+
+                          errorWidget: (context, url, error) => Container(
+                            width: 70,
+                            height: 70,
+                            color: Colors.grey[300],
+                            child: const Icon(Icons.image_not_supported),
+                          ),
+                        )
                       ),
-                    SizedBox(height: 15,),
+                    SizedBox(height: 35,),
                     Text(
                       "${alat.stok} Stok tersisa",
                       style: TextStyle(

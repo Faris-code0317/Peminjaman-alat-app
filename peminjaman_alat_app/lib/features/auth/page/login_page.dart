@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
+import 'package:flutter/services.dart';
 
 import 'package:peminjaman_alat_app/features/auth/page/register_page.dart';
 import 'package:peminjaman_alat_app/features/auth/widgets/loginButtonOption.dart';
@@ -30,8 +31,16 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    // Future.delayed(const Duration(milliseconds: 100), () {
+    //   if (!mounted) return;
+      
+    //   setState(() {
+    //     _isVisible = true;
+    //   });
+    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
 
-    Future.delayed(Duration(milliseconds: 100), () {
       setState(() {
         _isVisible = true;
       });
@@ -39,12 +48,27 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final auth = context.watch<AuthController>();
+    final auth = context.read<AuthController>();
+
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
 
     return Scaffold(
       body: ClipRect(
         child: Container(
+          height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -58,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -67,7 +92,11 @@ class _LoginPageState extends State<LoginPage> {
                   color: AppColors.green1,
                 ),
 
-                _loginForm(auth, context),
+                Consumer<AuthController>(
+                  builder: (context, auth, _) {
+                    return _loginForm(auth, context);
+                  },
+                ),
 
                 const SizedBox(height: 20),
 
@@ -107,14 +136,16 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _loginForm(AuthController auth, BuildContext context) {
-    return AnimatedSlide(
+    return 
+    AnimatedSlide(
       offset: _isVisible ? Offset.zero : Offset(0, 0.5),
       duration: Duration(milliseconds: 1500),
       curve: Curves.easeOut,
       child: AnimatedOpacity(
         opacity: _isVisible ? 1 : 0,
         duration: Duration(milliseconds: 1500),
-        child: Container(
+        child:
+       Container(
               width: double.infinity,
               height: 210,
               margin: const EdgeInsets.only(
@@ -123,32 +154,54 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  TextField(
-                    controller: usernameController,
-                    decoration: InputDecoration(
-                      hintText: "Username",
-                      prefixIcon: const Icon(Icons.person),
+                  Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black1.withOpacity(0.15),
+                          blurRadius: 10,
+                          offset: Offset(0, 4)
+                        )
+                      ]
+                    ),
+                    child: TextField(
+                      controller: usernameController,
+                      decoration: InputDecoration(
+                        hintText: "Username",
+                        prefixIcon: const Icon(Icons.person),
+                      ),
                     ),
                   ),
                   SizedBox(height: 2),
-                  TextField(
-                  controller: passwordController,
-                  obscureText: _isObscure,
-                  decoration: InputDecoration(
-                    hintText: "Password",
-                    prefixIcon: const Icon(Icons.lock),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _isObscure ? Icons.visibility_off : Icons.visibility,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _isObscure = !_isObscure;
-                        });
-                      },
+                  Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black1.withOpacity(0.15),
+                          blurRadius: 10,
+                          offset: Offset(0, 4)
+                        )
+                      ]
                     ),
+                    child: TextField(
+                    controller: passwordController,
+                    obscureText: _isObscure,
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                      prefixIcon: const Icon(Icons.lock),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _isObscure ? Icons.visibility_off : Icons.visibility,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _isObscure = !_isObscure;
+                          });
+                        },
+                      ),
+                    ),
+                                    ),
                   ),
-                ),
 
                 SizedBox(height: 3),
                 
@@ -156,50 +209,52 @@ class _LoginPageState extends State<LoginPage> {
                 const CircularProgressIndicator(color: AppColors.green1,)
                 else
                   SizedBox(
-                  width: double.infinity,
-                  height: 55,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.green1,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+                    width: double.infinity,
+                    height: 55,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.green1,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                         ),
-                      ),
-                      onPressed: () async {
-                          await auth.login(
-                            username: usernameController.text,
-                            password: passwordController.text,
-                          );
+                       onPressed: () async {
+                            final auth = context.read<AuthController>();
 
-                          if (auth.isLoggedIn && context.mounted) {
-                            Get.offAllNamed(AppRoutes.HOME);
-                          } else if (auth.errorMessage != null && context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                margin: EdgeInsets.all(20),
-                                backgroundColor: AppColors.error,
-                                content: Center(
-                                  child: Text(
-                                    auth.errorMessage!,
+                            await auth.login(
+                              username: usernameController.text,
+                              password: passwordController.text,
+                            );
+                    
+                            if (auth.isLoggedIn && context.mounted) {
+                              Get.offAllNamed(AppRoutes.HOME);
+                            } else if (auth.errorMessage != null && context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  margin: EdgeInsets.all(20),
+                                  backgroundColor: AppColors.error,
+                                  content: Center(
+                                    child: Text(
+                                      auth.errorMessage!,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          }
-                        },
-                      child: const Text(
-                        "Masuk",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: AppColors.bgWhite,
-                          fontWeight: FontWeight.bold,
+                              );
+                            }
+                          },
+                        child: const Text(
+                          "Masuk",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: AppColors.bgWhite,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
                   ),
                   ],
                 ),
-              )
+              ),
       ),
     );
   }

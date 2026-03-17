@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 import 'package:peminjaman_alat_app/core/utils/helpers.dart';
@@ -83,18 +84,37 @@ class AlatListWidget extends StatelessWidget {
                       ),
                     ]
                   ),
-                  margin: const EdgeInsets.fromLTRB(0, 15, 10, 15),
+                  margin: const EdgeInsets.fromLTRB(0, 0, 10, 15),
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(8, 0, 8, 5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Align(
                           alignment: Alignment.center,
-                          child: Image.network(getImageUrl(alat.gambar),
-                              height: 120),
+                          child: CachedNetworkImage(
+                            imageUrl: getImageUrl(alat.gambar),
+                            width: 70,
+                            height: 70,
+                            fit: BoxFit.cover,
+
+                            placeholder: (context, url) => Container(
+                              width: 70,
+                              height: 70,
+                              alignment: Alignment.center,
+                              child: const CircularProgressIndicator(strokeWidth: 2),
+                            ),
+
+                            errorWidget: (context, url, error) => Container(
+                              width: 70,
+                              height: 70,
+                              color: Colors.grey[300],
+                              child: const Icon(Icons.image_not_supported),
+                            ),
+                          )
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(height: 35,),
                         Text(
                           "${alat.stok} Stok tersisa",
                           style: TextStyle(

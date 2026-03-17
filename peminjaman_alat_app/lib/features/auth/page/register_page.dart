@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 import 'package:peminjaman_alat_app/features/auth/page/login_page.dart';
 import 'package:peminjaman_alat_app/features/auth/widgets/topCardHeader.dart';
@@ -28,11 +29,24 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _isVisible = false;
   bool _isObscureConfirm = true;
 
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   Future.delayed(Duration(milliseconds: 100), () {
+  //     setState(() {
+  //       _isVisible = true;
+  //     });
+  //   });
+  // }
+
   @override
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(milliseconds: 100), () {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
       setState(() {
         _isVisible = true;
       });
@@ -40,12 +54,29 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   @override
+  void dispose() {
+    namaController.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthController>();
+
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent, 
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
 
     return Scaffold(
       body: ClipRect(
         child: Container(
+          height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -59,6 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
           child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -127,56 +159,100 @@ class _RegisterPageState extends State<RegisterPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
 
-                TextField(
-                  controller: namaController,
-                  decoration: InputDecoration(
-                    hintText: "Nama Lengkap",
-                    prefixIcon: const Icon(Icons.person),
+                Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black1.withOpacity(0.15),
+                          blurRadius: 10,
+                          offset: Offset(0, 4)
+                        )
+                      ]
+                    ),
+                  child: TextField(
+                    controller: namaController,
+                    decoration: InputDecoration(
+                      hintText: "Nama Lengkap",
+                      prefixIcon: const Icon(Icons.person),
+                    ),
                   ),
                 ),
 
-                TextField(
-                  controller: usernameController,
-                  decoration: InputDecoration(
-                    hintText: "Username",
-                    prefixIcon: const Icon(Icons.person),
+                Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black1.withOpacity(0.15),
+                          blurRadius: 10,
+                          offset: Offset(0, 4)
+                        )
+                      ]
+                    ),
+                  child: TextField(
+                    controller: usernameController,
+                    decoration: InputDecoration(
+                      hintText: "Username",
+                      prefixIcon: const Icon(Icons.person),
+                    ),
                   ),
                 ),
 
-                TextField(
-                  controller: passwordController,
-                  obscureText: _isObscure,
+                Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black1.withOpacity(0.15),
+                          blurRadius: 10,
+                          offset: Offset(0, 4)
+                        )
+                      ]
+                    ),
+                  child: TextField(
+                    controller: passwordController,
+                    obscureText: _isObscure,
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                      prefixIcon: const Icon(Icons.lock),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _isObscure ? Icons.visibility_off : Icons.visibility,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _isObscure = !_isObscure;
+                          });
+                        },
+                      ),
+                  ),
+                                ),
+                ),
+
+              Container(
+                decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black1.withOpacity(0.15),
+                          blurRadius: 10,
+                          offset: Offset(0, 4)
+                        )
+                      ]
+                    ),
+                child: TextField(
+                  controller: confirmPasswordController,
+                  obscureText: _isObscureConfirm,
                   decoration: InputDecoration(
-                    hintText: "Password",
+                    hintText: "Konfirmasi Password",
                     prefixIcon: const Icon(Icons.lock),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _isObscure ? Icons.visibility_off : Icons.visibility,
+                        _isObscureConfirm ? Icons.visibility_off : Icons.visibility,
                       ),
                       onPressed: () {
                         setState(() {
-                          _isObscure = !_isObscure;
+                          _isObscureConfirm = !_isObscureConfirm;
                         });
                       },
                     ),
-                ),
-              ),
-
-              TextField(
-                controller: confirmPasswordController,
-                obscureText: _isObscureConfirm,
-                decoration: InputDecoration(
-                  hintText: "Konfirmasi Password",
-                  prefixIcon: const Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _isObscureConfirm ? Icons.visibility_off : Icons.visibility,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _isObscureConfirm = !_isObscureConfirm;
-                      });
-                    },
                   ),
                 ),
               ),
@@ -204,14 +280,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         );
                         return;
                       }
-
+                
                       bool success = await auth.register(
                         namaLengkap: namaController.text,
                         username: usernameController.text,
                         password: passwordController.text,
                         confirmPassword: confirmPasswordController.text,
                       );
-
+                
                       if (success && context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -224,7 +300,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                         );
-
+                
                         Navigator.pop(context);
                       }
                     },

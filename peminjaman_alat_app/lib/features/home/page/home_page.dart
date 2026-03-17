@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/services.dart';
 import 'package:peminjaman_alat_app/features/alat/controller/alat_controller.dart';
 
 import 'package:peminjaman_alat_app/features/home/controller/home_controller.dart';
@@ -16,17 +17,34 @@ import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
 import 'package:peminjaman_alat_app/routes/app_routes.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({super.key, required this.scrollController});
     
   final ScrollController scrollController;
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   final HomeController Homecontroller = Get.find();
+
   final searchController = TextEditingController();
+
   // final AlatController alatController = Get.find();
-  // final ProfileController Profilecontroller = Get.find();
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent, 
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
     return Obx(() {
           final user = Homecontroller.userInfo.value;
           if (Homecontroller.isLoading.value) {
@@ -39,7 +57,7 @@ class HomePage extends StatelessWidget {
             );
           }
           return SingleChildScrollView(
-            controller: scrollController,
+            controller: widget.scrollController,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
