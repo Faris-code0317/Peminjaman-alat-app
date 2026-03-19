@@ -194,9 +194,9 @@ class PeminjamanController extends Controller
         try {
             $peminjaman = Peminjaman::with('detail.alat')->findOrFail($id);
 
-            if (trim($peminjaman->status) !== 'dipinjam') {
+            if (trim($peminjaman->status) !== 'pengembalian') {
                 return response()->json([
-                    'message' => 'Status bukan dipinjam',
+                    'message' => 'User belum mengajukan pengembalian',
                     'status' => $peminjaman->status
                 ], 400);
             }
