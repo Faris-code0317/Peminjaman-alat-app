@@ -57,6 +57,7 @@ class AlatListWidget extends StatelessWidget {
                     context, 
                     MaterialPageRoute(
                       builder: (context) => alatDetail_page(
+                        idAlat: alat.idAlat,
                         gambar: alat.gambar,
                         stok: alat.stok,
                         kategori: alat.kategori.namaKategori,

@@ -15,6 +15,7 @@ import 'package:peminjaman_alat_app/core/utils/helpers.dart';
 class alatDetail_page extends StatefulWidget {
   alatDetail_page({
     super.key, 
+    required this.idAlat,
     required this.gambar,
     required this.stok,
     required this.kategori,
@@ -22,6 +23,7 @@ class alatDetail_page extends StatefulWidget {
     // required this.alatController,
   });
 
+  final int idAlat;
   final String gambar;
   final int stok;
   final String kategori;
@@ -272,7 +274,10 @@ class _alatDetail_pageState extends State<alatDetail_page> {
                     showModalBottomSheet(
                       context: context, 
                       isScrollControlled: false,
-                      builder: (context) => peminjamanBottomSheet_widget(stok: widget.stok),
+                      builder: (context) => peminjamanBottomSheet_widget(
+                        id_alat: widget.idAlat,
+                        stok: widget.stok
+                      ),
                     );
                   }, 
                   style: ElevatedButton.styleFrom(

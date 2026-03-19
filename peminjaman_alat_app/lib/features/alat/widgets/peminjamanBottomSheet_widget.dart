@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:input_quantity/input_quantity.dart';
+import 'package:get/get.dart';
+
+import 'package:peminjaman_alat_app/features/alat/services/peminjaman_services.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
 class peminjamanBottomSheet_widget extends StatefulWidget {
   const peminjamanBottomSheet_widget({
     super.key,
+    required this.id_alat,
     required this.stok,
   });
 
+  final int id_alat;
   final int stok;
 
   @override
@@ -151,7 +156,11 @@ class _peminjamanBottomSheet_widgetState extends State<peminjamanBottomSheet_wid
 
               const SizedBox(height: 15),
 
-              inputStokDanButtonAjukan(widget: widget, isAgree: isAgree),
+              inputStokDanButtonAjukan(
+                id_alat: widget.id_alat,
+                widget: widget, 
+                isAgree: isAgree
+              ),
 
               const SizedBox(height: 10),
             ],
@@ -162,15 +171,26 @@ class _peminjamanBottomSheet_widgetState extends State<peminjamanBottomSheet_wid
   }
 }
 
-class inputStokDanButtonAjukan extends StatelessWidget {
+class inputStokDanButtonAjukan extends StatefulWidget {
   const inputStokDanButtonAjukan({
     super.key,
+    required this.id_alat,
     required this.widget,
     required this.isAgree,
   });
 
+  final int id_alat;
   final peminjamanBottomSheet_widget widget;
   final bool isAgree;
+
+  @override
+  State<inputStokDanButtonAjukan> createState() => _inputStokDanButtonAjukanState();
+}
+
+class _inputStokDanButtonAjukanState extends State<inputStokDanButtonAjukan> {
+
+  int jumlah = 1;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +209,12 @@ class inputStokDanButtonAjukan extends StatelessWidget {
           initVal: 1,
           steps: 1,
           minVal: 1,
-          maxVal: widget.stok,
+          maxVal: widget.widget.stok,
+          onQtyChanged: (valueStok) {
+            setState(() {
+              jumlah = valueStok;
+            });
+          },
         ),
     
         Container(
@@ -203,11 +228,42 @@ class inputStokDanButtonAjukan extends StatelessWidget {
             ]
           ),
           child: ElevatedButton(
-            onPressed: isAgree ? () {
+            onPressed: widget.isAgree && !isLoading ? () async {
+              setState(() => isLoading = true);
+
+              try {
+                final response = await PeminjamanService.ajukanPeminjaman(
+                  idAlat: widget.id_alat,
+                  jumlah: jumlah,
+                );
+
+                final data = response.data;
+
+                if (response.statusCode == 201) {
+                  Get.snackbar(
+                    "Berhasil", 
+                    data['message'],
+                    backgroundColor: AppColors.green1,
+                    colorText: AppColors.bgWhite,
+                  );
+                  Navigator.pop(context);
+                } else {
+                  Get.snackbar(
+                    "Gagal", 
+                    data['message'] ?? "Terjadi kesalahan, harap coba lagi nanti",
+                    backgroundColor: AppColors.error,
+                    colorText: Colors.white,
+                  );
+                }
+
+              } finally {
+                setState(() => isLoading = false);
+              }
+
             } : null,
             style: ElevatedButton.styleFrom(
               minimumSize: const Size(160, 60),
-              backgroundColor: isAgree
+              backgroundColor: widget.isAgree
                   ? AppColors.green1
                   : Colors.grey,
               shape: RoundedRectangleBorder(
