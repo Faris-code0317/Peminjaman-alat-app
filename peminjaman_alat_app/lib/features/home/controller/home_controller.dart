@@ -13,7 +13,6 @@ class HomeController extends GetxController {
   RxInt selectedKategoriIndex = 0.obs;
   var errorMessage = ''.obs;
 
-  // 🔥 TAMBAHKAN INI
   List<KategoriModel> get kategoriList {
     final map = <int, KategoriModel>{};
 

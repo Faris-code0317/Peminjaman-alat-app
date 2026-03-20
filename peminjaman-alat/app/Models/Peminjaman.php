@@ -22,7 +22,7 @@ class Peminjaman extends Model
         'tanggal_pinjam' => 'datetime',
         'tanggal_kembali' => 'datetime',
         'tanggal_disetujui' => 'datetime',
-        'tanggal_pengajuan_peminjaman' => 'datetime'
+        'tanggal_pengajuan_pengembalian' => 'datetime'
     ];
 
     public function detail()

@@ -45,4 +45,36 @@ static Future<List<StatusModel>> getStatus(String status) async {
 
   }
 }
+
+static Future<Response> ajukanPengembalian(int idPeminjaman) async {
+  try {
+    final token = await StorageService.getToken();
+
+    if (token == null) {
+      throw Exception("Token kosong");
+    }
+
+    final response = await _dio.put(
+      "${ApiConstants.peminjaman}/$idPeminjaman/ajukan-pengembalian",
+      options: Options(
+        headers: {
+          "Authorization": "Bearer $token",
+          "Accept": "application/json",
+        },
+      ),
+    );
+
+    return response;
+
+  } on DioException catch (e) {
+
+    return e.response ?? Response(
+      requestOptions: RequestOptions(path: ""),
+      statusCode: 500,
+      data: {
+        "message": "Terjadi kesalahan"
+      },
+    );
+  }
+}
 }

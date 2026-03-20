@@ -243,17 +243,20 @@ class _inputStokDanButtonAjukanState extends State<inputStokDanButtonAjukan> {
                   Get.snackbar(
                     "Berhasil", 
                     data['message'],
-                    backgroundColor: AppColors.green1,
-                    colorText: AppColors.bgWhite,
+                    backgroundColor: AppColors.green1.withOpacity(0.1),
+                    colorText: AppColors.green1,
+                    margin: EdgeInsets.all(15)
                   );
                   Navigator.pop(context);
                 } else {
                   Get.snackbar(
                     "Gagal", 
                     data['message'] ?? "Terjadi kesalahan, harap coba lagi nanti",
-                    backgroundColor: AppColors.error,
-                    colorText: Colors.white,
+                    backgroundColor: AppColors.error.withOpacity(0.1),
+                    colorText: AppColors.error,
+                    margin: EdgeInsets.all(15)
                   );
+                  Navigator.pop(context);
                 }
 
               } finally {

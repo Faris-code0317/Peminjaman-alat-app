@@ -49,7 +49,30 @@ class appBar_widget extends StatelessWidget {
                 )
               ],
             ),
-            Icon(Icons.notifications, color: AppColors.black1,)
+
+            Container(
+              width: 35,
+              height: 35,
+              decoration: BoxDecoration(
+                color: AppColors.bgWhite,
+                borderRadius: BorderRadius.circular(35 / 2),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.black1.withOpacity(0.10),
+                    blurRadius: 10,
+                    offset: Offset(0, 4)
+                  )
+                ]
+              ),
+              child: Align(
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.notifications, 
+                  color: AppColors.green1,
+                ),
+              )
+            ),
+
           ],
         ),
       ),

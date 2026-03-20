@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:peminjaman_alat_app/features/status/model/status_model.dart';
 import 'package:peminjaman_alat_app/features/status/services/status_services.dart';
@@ -61,5 +62,49 @@ class StatusController extends GetxController {
     selectedStatusIndex.value = index;
 
     await fetchStatus(statusTab[index]);
+  }
+
+  Future<void> ajukanPengembalian(int idPeminjaman) async {
+    try {
+
+      isLoading.value = true;
+
+      final response = await StatusServices.ajukanPengembalian(idPeminjaman);
+
+      final data = response.data;
+
+      if (response.statusCode == 200) {
+
+        Get.snackbar(
+          "Berhasil",
+          data["message"],
+          margin: EdgeInsets.all(15)
+        );
+
+        await fetchStatus(statusTab[selectedStatusIndex.value]);
+
+      } else {
+
+        Get.snackbar(
+          "Gagal",
+          data["message"] ?? "Terjadi kesalahan",
+          margin: EdgeInsets.all(15)
+        );
+
+      }
+
+    } catch (e) {
+
+      Get.snackbar(
+        "Error",
+        "Terjadi kesalahan",
+        margin: EdgeInsets.all(15)
+      );
+
+    } finally {
+
+      isLoading.value = false;
+
+    }
   }
 }

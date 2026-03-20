@@ -81,10 +81,11 @@ function showTolakForm(id) {
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Username Peminjam</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nama Alat</th>
-                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah dipinjam</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stok Saat Ini</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Permintaan</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Peminjaman</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Pengajuan Pengembalian</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gambar</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
@@ -128,6 +129,9 @@ function showTolakForm(id) {
                                 <span class="text-muted">Belum disetujui</span>
                             @endif
                         </td>
+                      <td class="text-center">
+                         {{ $p->tanggal_pengajuan_pengembalian->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
+                      </td>
                       <td class="align-middle text-center">
                             <span class="badge badge-sm bg-gradient-success">{{ ucfirst($p->status) }}</span>
                       </td>

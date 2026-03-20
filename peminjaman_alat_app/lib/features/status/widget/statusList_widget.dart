@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
-
 import 'package:peminjaman_alat_app/core/utils/dateFormatter_helper.dart';
 import 'package:peminjaman_alat_app/core/utils/helpers.dart';
 
@@ -11,6 +10,8 @@ import 'package:peminjaman_alat_app/features/status/controller/status_controller
 import 'package:peminjaman_alat_app/features/status/model/statusAlat_model.dart';
 import 'package:peminjaman_alat_app/features/status/model/statusDetail_model.dart';
 import 'package:peminjaman_alat_app/features/status/model/status_model.dart';
+
+import 'package:peminjaman_alat_app/features/status/widget/ajukanPengembalian_button.dart';
 
 class StatusListWidget extends StatelessWidget {
   StatusListWidget({super.key});
@@ -229,21 +230,7 @@ class StatusListWidget extends StatelessWidget {
                         )
                       ]
                     ),
-                    child: ElevatedButton(
-                      onPressed: (){}, 
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.success,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadiusGeometry.circular(25)
-                        )
-                      ),
-                      child: Text(
-                        "Ajukan pengembalian",
-                        style: TextStyle(
-                          color: AppColors.bgWhite
-                        ),
-                      )
-                    )
+                    child: ajukanPengembalianButton(controller: controller, data: data)
                   ),
                 ],
 
@@ -619,3 +606,4 @@ class StatusListWidget extends StatelessWidget {
         );
   }
 }
+
