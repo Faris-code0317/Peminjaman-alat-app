@@ -50,7 +50,7 @@ class KategoriList extends StatelessWidget {
           .toList();
 
       return GridView.builder(
-        padding: EdgeInsets.symmetric(horizontal: 15),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 10,
@@ -84,13 +84,13 @@ class KategoriList extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                  boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.08),
+                      color: Colors.black.withOpacity(0.15),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                    ),
                  ]
               ),
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              margin: const EdgeInsets.fromLTRB(0, 0, 10, 15),
               child: Padding(
                 padding: EdgeInsets.fromLTRB(8, 0, 8, 5),
                 child: Column(

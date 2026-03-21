@@ -7,26 +7,24 @@ class ProfileController extends GetxController {
   var userInfo = Rxn<UserModel>();
   var errorMessage = ''.obs;
 
-    //start
-   final stopwatch = Stopwatch()..start();
-   //end
+  //  final stopwatch = Stopwatch()..start();
 
   @override
   void onInit() {
-    fetchAlat();
+    fetchUser();
     super.onInit();
   }
 
-  void fetchAlat() async {
+  void fetchUser() async {
     try {
       isLoading(true);
 
-      final stopwatch = Stopwatch()..start();
+      // final stopwatch = Stopwatch()..start();
 
       final dataUser = await ProfileServices.getUser();
 
-      stopwatch.stop();
-      print("PROFILE FETCH: ${stopwatch.elapsedMilliseconds} ms");
+      // stopwatch.stop();
+      // print("PROFILE FETCH: ${stopwatch.elapsedMilliseconds} ms");
 
       userInfo.value = dataUser;
 

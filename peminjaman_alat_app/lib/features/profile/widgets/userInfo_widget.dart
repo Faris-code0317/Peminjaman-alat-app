@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
-class appBar_widget extends StatelessWidget {
-  const appBar_widget({
+class userInfo_widget extends StatelessWidget {
+  const userInfo_widget({
     super.key,
     required this.user,
   });
@@ -13,66 +13,70 @@ class appBar_widget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.bottomCenter,
-      height: 60,
-      // color: AppColors.green1,
+      decoration: BoxDecoration(
+        color: AppColors.bgWhite,
+        borderRadius: BorderRadius.circular(25),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.black1.withOpacity(0.15),
+            blurRadius: 10,
+            offset: Offset(0, 4)
+          )
+        ]
+      ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.all(15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Column(
-              mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Selamat datang",
+                  "Username :",
+                ),
+                Text(
+                  user?.username ?? "",
                   style: TextStyle(
                     color: AppColors.grey1,
-                    fontSize: 11
                   ),
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Icon(Icons.person, color: AppColors.green1,),
-                    SizedBox(width: 2),
-                    Text(
-                      user?.namaUser ?? "",
-                      style: TextStyle(
-                        color: AppColors.black1,
-                        fontSize: 14
-                      ),
-                    ),
-                  ],
-                )
+                SizedBox(height: 10),
+                Text(
+                  "Nama Lengkap :",
+                ),
+                Text(
+                  user?.namaUser ?? "",
+                  style: TextStyle(
+                    color: AppColors.grey1,
+                  ),
+                ),
               ],
             ),
-
+    
             Container(
-              width: 35,
               height: 35,
+              width: 35,
               decoration: BoxDecoration(
-                color: AppColors.bgWhite,
+                color: AppColors.green1,
                 borderRadius: BorderRadius.circular(35 / 2),
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.black1.withOpacity(0.10),
                     blurRadius: 10,
                     offset: Offset(0, 4)
-                  )
-                ]
+                  ),
+                ],
               ),
               child: Align(
                 alignment: Alignment.center,
                 child: Icon(
-                  Icons.notifications, 
-                  color: AppColors.green1,
+                  Icons.edit,
+                  color: AppColors.bgWhite,
                 ),
-              )
+              ),
             ),
-
           ],
         ),
       ),
