@@ -76,7 +76,7 @@ class StatusController extends GetxController {
       if (response.statusCode == 200) {
 
         Get.snackbar(
-          "Berhasil",
+          "✅ Berhasil",
           data["message"],
           margin: EdgeInsets.all(15)
         );
@@ -86,7 +86,7 @@ class StatusController extends GetxController {
       } else {
 
         Get.snackbar(
-          "Gagal",
+          "🚫 Gagal",
           data["message"] ?? "Terjadi kesalahan",
           margin: EdgeInsets.all(15)
         );
@@ -96,7 +96,7 @@ class StatusController extends GetxController {
     } catch (e) {
 
       Get.snackbar(
-        "Error",
+        "⚠️ Error",
         "Terjadi kesalahan",
         margin: EdgeInsets.all(15)
       );

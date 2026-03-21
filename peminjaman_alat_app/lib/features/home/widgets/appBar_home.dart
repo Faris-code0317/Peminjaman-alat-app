@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'package:peminjaman_alat_app/routes/app_routes.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
 
@@ -50,27 +53,32 @@ class appBar_widget extends StatelessWidget {
               ],
             ),
 
-            Container(
-              width: 35,
-              height: 35,
-              decoration: BoxDecoration(
-                color: AppColors.bgWhite,
-                borderRadius: BorderRadius.circular(35 / 2),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.black1.withOpacity(0.10),
-                    blurRadius: 10,
-                    offset: Offset(0, 4)
-                  )
-                ]
-              ),
-              child: Align(
-                alignment: Alignment.center,
-                child: Icon(
-                  Icons.notifications, 
-                  color: AppColors.green1,
+            InkWell(
+              onTap: () {
+                Get.offAllNamed(AppRoutes.NOTIFIKASI);
+              },
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: AppColors.bgWhite,
+                  borderRadius: BorderRadius.circular(40 / 2),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.black1.withOpacity(0.10),
+                      blurRadius: 10,
+                      offset: Offset(0, 4)
+                    )
+                  ]
                 ),
-              )
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.notifications, 
+                    color: AppColors.green1,
+                  ),
+                )
+              ),
             ),
 
           ],

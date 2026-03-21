@@ -96,7 +96,7 @@ class _EmptyWidget extends StatelessWidget {
         const SizedBox(height: 10),
 
         const Text(
-          "Data tidak ditemukan",
+          "⛔ Data tidak ditemukan",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,

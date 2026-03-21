@@ -241,19 +241,19 @@ class _inputStokDanButtonAjukanState extends State<inputStokDanButtonAjukan> {
 
                 if (response.statusCode == 201) {
                   Get.snackbar(
-                    "Berhasil", 
+                    "✅ Berhasil", 
                     data['message'],
-                    backgroundColor: AppColors.green1.withOpacity(0.1),
-                    colorText: AppColors.green1,
+                    backgroundColor: AppColors.green1.withOpacity(0.5),
+                    colorText: AppColors.bgWhite,
                     margin: EdgeInsets.all(15)
                   );
                   Navigator.pop(context);
                 } else {
                   Get.snackbar(
-                    "Gagal", 
+                    "🚫 Gagal", 
                     data['message'] ?? "Terjadi kesalahan, harap coba lagi nanti",
-                    backgroundColor: AppColors.error.withOpacity(0.1),
-                    colorText: AppColors.error,
+                    backgroundColor: AppColors.error.withOpacity(0.5),
+                    colorText: AppColors.bgWhite,
                     margin: EdgeInsets.all(15)
                   );
                   Navigator.pop(context);

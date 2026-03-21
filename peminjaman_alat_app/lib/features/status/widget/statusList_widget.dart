@@ -416,7 +416,7 @@ class StatusListWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Tanggal Disetujui Peminjaman"),
+                      const Text("Tanggal Disetujui"),
                           if(data.tanggalDisetujui == null) ...[
                             Text(
                               "Pengajuan ditolak petugas",
@@ -450,7 +450,7 @@ class StatusListWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Tanggal Pengajuan Kembali"),
+                      const Text("Tanggal Pengembalian"),
 
                        Row(
                          children: [
