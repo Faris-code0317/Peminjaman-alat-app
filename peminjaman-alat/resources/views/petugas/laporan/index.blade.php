@@ -152,7 +152,7 @@
                         </td>
                       <td class="text-center">
                         @if ($p->status !== 'menunggu' && $p->status !== 'dipinjam')
-                            {{ $p->tanggal_kembali->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)')}}
+                            {{ $p->tanggal_kembali ? $p->tanggal_kembali->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') : '-' }}
                         @else
                             -
                         @endif

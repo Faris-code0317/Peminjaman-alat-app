@@ -14,6 +14,10 @@ class LaporanController extends Controller
 {
     public function peminjaman(Request $request)
     {
+        $request->validate([
+            'from' => 'required|date',
+            'to' => 'required|date',
+        ]);
 
         $from = Carbon::parse($request->from)->startOfDay();
         $to   = Carbon::parse($request->to)->endOfDay();

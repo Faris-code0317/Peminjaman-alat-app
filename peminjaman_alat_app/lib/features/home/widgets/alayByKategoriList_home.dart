@@ -34,7 +34,7 @@ class KategoriList extends StatelessWidget {
       final kategoriList = homeController.kategoriList;
 
       if (kategoriList.isEmpty) {
-        return const SizedBox();
+        return _EmptyWidget();
       }
 
       final selectedIndex =
@@ -151,5 +151,44 @@ class KategoriList extends StatelessWidget {
         },
       );
     });
+  }
+}
+
+class _EmptyWidget extends StatelessWidget {
+  const _EmptyWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+
+        Image(
+          image: AppAssets.notFoundIcon,
+          width: 260,
+        ),
+
+        const SizedBox(height: 10),
+
+        const Text(
+          "⛔ Maaf, data alat belum tersedia",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+
+        const SizedBox(height: 4),
+
+        Text(
+          "Admin belum menambahkan data alat untuk dipinjam",
+          style: TextStyle(
+            color: AppColors.grey1,
+            fontSize: 13,
+          ),
+        ),
+
+      ],
+    );
   }
 }

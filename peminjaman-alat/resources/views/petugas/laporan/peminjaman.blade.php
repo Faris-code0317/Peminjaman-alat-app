@@ -104,16 +104,16 @@
 
             @if($showTanggalMengajukan)
                 <td style="text-align: center;">
-                    {{ $p->tanggal_pinjam->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
+                    {{ $p->tanggal_pinjam ? $p->tanggal_pinjam->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') : '-' }}
                  </td>
             @endif
 
             @if($showTanggalDisetujui)
                 <td style="text-align: center;">
                     @if ($p->status === 'dipinjam')
-                        {{ $p->tanggal_disetujui->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
+                        {{ $p->tanggal_disetujui ? $p->tanggal_disetujui->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') : '-' }}
                     @elseif ($p->status === 'dikembalikan')
-                        {{ $p->tanggal_disetujui->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
+                        {{ $p->tanggal_disetujui ? $p->tanggal_disetujui->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') : '-' }}
                     @else
                         -
                     @endif
@@ -134,11 +134,11 @@
              <!-- Tanggal dipinjam/setujui,dikembalikan,ditolak,menunggu -->
                 <td style="text-align: center;">
                     @if ($p->status === 'dipinjam')
-                        {{ $p->tanggal_disetujui->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
+                        {{ $p->tanggal_disetujui ? $p->tanggal_disetujui->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') : '-' }}
                     @elseif ($p->status === 'menunggu')
-                        {{ $p->tanggal_pinjam->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
+                        {{ $p->tanggal_pinjam ? $p->tanggal_pinjam->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') : '-' }}
                     @else
-                        {{ $p->tanggal_kembali->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') }}
+                        {{ $p->tanggal_kembali ? $p->tanggal_kembali->timezone('Asia/Jakarta')->translatedFormat('d F Y (H:i:s)') : '-' }}
                     @endif
                 </td>
         </tr>
