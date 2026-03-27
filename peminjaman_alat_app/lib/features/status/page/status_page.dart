@@ -55,13 +55,13 @@ class _StatusPageState extends State<StatusPage>
 
               if (controller.isFirstLoad.value) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(color: AppColors.green1,),
                 );
               }
 
               if (controller.isLoading.value) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(color: AppColors.green1,),
                 );
               }
 

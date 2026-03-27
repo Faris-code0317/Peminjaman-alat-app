@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
+
 import 'package:peminjaman_alat_app/features/profile/controller/profile_controller.dart';
 
 import 'package:peminjaman_alat_app/features/profile/widgets/logoutButton_widget.dart';
@@ -36,7 +38,7 @@ class _ProfilePageState extends State<ProfilePage>
       final user = Profilecontroller.userInfo.value;
       
       if (Profilecontroller.isLoading.value) {
-        return const Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator(color: AppColors.green1,));
        }
       
        if (Profilecontroller.errorMessage.isNotEmpty) {

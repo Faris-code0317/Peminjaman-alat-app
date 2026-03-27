@@ -58,6 +58,7 @@ class _NotifikasiPageState extends State<NotifikasiPage>
                   )
                 ]
               ),
+              
               child: Align(
                 alignment: Alignment.center,
                 child: Icon(

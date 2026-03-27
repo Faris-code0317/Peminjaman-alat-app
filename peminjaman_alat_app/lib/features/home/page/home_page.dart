@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
-import 'package:peminjaman_alat_app/features/alat/controller/alat_controller.dart';
 
 import 'package:peminjaman_alat_app/features/home/controller/home_controller.dart';
-import 'package:peminjaman_alat_app/features/alat/page/alat_page.dart';
 
 import 'package:peminjaman_alat_app/features/home/widgets/appBar_home.dart';
 import 'package:peminjaman_alat_app/features/home/widgets/searchBar_home.dart';
@@ -48,7 +46,7 @@ class _HomePageState extends State<HomePage>
     return Obx(() {
           final user = Homecontroller.userInfo.value;
           if (Homecontroller.isLoading.value) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(color: AppColors.green1,));
           }
       
           if (Homecontroller.errorMessage.isNotEmpty) {

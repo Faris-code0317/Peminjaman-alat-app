@@ -174,7 +174,7 @@ class _EmptyWidget extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(height: 4),
+        const SizedBox(height: 4),  
 
         Text(
           "Admin belum menambahkan data alat untuk dipinjam",
