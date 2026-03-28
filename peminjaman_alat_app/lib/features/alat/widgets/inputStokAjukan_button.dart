@@ -50,7 +50,7 @@ class _inputStokDanButtonAjukanState extends State<inputStokDanButtonAjukan> {
           maxVal: widget.widget.stok,
           onQtyChanged: (valueStok) {
             setState(() {
-              jumlah = valueStok;
+              jumlah = valueStok.toInt();
             });
           },
         ),

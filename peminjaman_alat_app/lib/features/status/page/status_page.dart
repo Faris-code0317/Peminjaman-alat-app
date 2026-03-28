@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
+import 'package:peminjaman_alat_app/core/widgets/empty_widget.dart';
 
 import 'package:peminjaman_alat_app/features/status/controller/status_controller.dart';
 import 'package:peminjaman_alat_app/features/status/widget/statusTab_widget.dart';
@@ -66,7 +67,10 @@ class _StatusPageState extends State<StatusPage>
               }
 
               if (controller.statusList.isEmpty) {
-                return const _EmptyWidget();
+                return EmptyWidget(
+                  title: controller.emptyTitle,
+                  description: controller.emptyDescription,
+                );
               }
 
               return StatusListWidget();
@@ -75,45 +79,6 @@ class _StatusPageState extends State<StatusPage>
           )
         ],
       ),
-    );
-  }
-}
-
-class _EmptyWidget extends StatelessWidget {
-  const _EmptyWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-
-        Image(
-          image: AppAssets.notFoundIcon,
-          width: 260,
-        ),
-
-        const SizedBox(height: 10),
-
-        const Text(
-          "⛔ Data tidak ditemukan",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-
-        const SizedBox(height: 4),
-
-        Text(
-          "Belum ada peminjaman pada status ini",
-          style: TextStyle(
-            color: AppColors.grey1,
-            fontSize: 13,
-          ),
-        ),
-
-      ],
     );
   }
 }

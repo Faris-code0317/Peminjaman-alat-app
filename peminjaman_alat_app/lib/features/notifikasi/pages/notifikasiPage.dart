@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:peminjaman_alat_app/routes/app_routes.dart';
 
 import 'package:peminjaman_alat_app/core/theme/app_theme.dart';
+import 'package:peminjaman_alat_app/core/widgets/empty_widget.dart';
 
 import 'package:peminjaman_alat_app/features/notifikasi/controller/notifikasi_controller.dart';
 
@@ -58,7 +59,7 @@ class _NotifikasiPageState extends State<NotifikasiPage>
                   )
                 ]
               ),
-              
+
               child: Align(
                 alignment: Alignment.center,
                 child: Icon(
@@ -91,7 +92,10 @@ class _NotifikasiPageState extends State<NotifikasiPage>
             //  return const _EmptyWidget();
             // }
         
-            return _EmptyWidget();
+            return EmptyWidget(
+              title: controller.emptyTitle,
+              description: controller.emptyDescription,
+            );
         
         }),
       ),
@@ -99,44 +103,3 @@ class _NotifikasiPageState extends State<NotifikasiPage>
   }
 }
 
-class _EmptyWidget extends StatelessWidget {
-  const _EmptyWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.center,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-      
-          Image(
-            image: AppAssets.notFoundIcon,
-            width: 260,
-          ),
-      
-          const SizedBox(height: 10),
-      
-          const Text(
-            "⛔ Data tidak ditemukan",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-      
-          const SizedBox(height: 4),
-      
-          Text(
-            "Belum ada notifikasi terbaru yang masuk",
-            style: TextStyle(
-              color: AppColors.grey1,
-              fontSize: 13,
-            ),
-          ),
-      
-        ],
-      ),
-    );
-  }
-}

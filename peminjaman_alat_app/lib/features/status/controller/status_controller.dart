@@ -107,4 +107,38 @@ class StatusController extends GetxController {
 
     }
   }
+
+  String get emptyTitle {
+    switch (statusTab[selectedStatusIndex.value]) {
+      case "menunggu":
+        return "😕 Belum ada pengajuan";
+      case "dipinjam":
+        return "😕 Tidak ada peminjaman aktif";
+      case "pengembalian":
+        return "😕 Tidak ada pengajuan pengembalian";
+      case "dikembalikan":
+        return "😕 Riwayat dikembalikan kosong";
+      case "ditolak":
+        return "😕 Riwayat ditolak kosong";
+      default:
+        return "⛔ Data tidak ditemukan";
+    }
+  }
+
+String get emptyDescription {
+  switch (statusTab[selectedStatusIndex.value]) {
+    case "menunggu":
+      return "Silakan ajukan peminjaman terlebih dahulu";
+    case "dipinjam":
+      return "Belum ada riwayat alat yang sedang dipinjam";
+    case "pengembalian":
+      return "Belum ada riwayat pengembalian yang diajukan";
+    case "dikembalikan":
+      return "Riwayat data peminjaman yang sudah selesai masih kosong";
+    case "ditolak":
+      return "Tidak ada riwayat data peminjaman yang ditolak";
+    default:
+      return "Tidak ada data untuk ditampilkan";
+    }
+  }
 }

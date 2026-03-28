@@ -28,6 +28,9 @@ class _AlatListState extends State<AlatList> {
   final searchController = TextEditingController();
   final multiValueListenable = ValueNotifier<List<String>>([]);
 
+  //Add this, next add obx in this page
+  final AlatController Alatcontroller = Get.find();
+
   @override
   Widget build(BuildContext context) {
 

@@ -30,7 +30,6 @@ class _HomePageState extends State<HomePage>
 
     final searchController = TextEditingController();
 
-  // final AlatController alatController = Get.find();
   @override
   bool get wantKeepAlive => true;
 

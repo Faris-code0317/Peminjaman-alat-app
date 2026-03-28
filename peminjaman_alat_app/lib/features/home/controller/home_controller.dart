@@ -12,6 +12,8 @@ class HomeController extends GetxController {
   var userInfo = Rxn<UserModel>();
   RxInt selectedKategoriIndex = 0.obs;
   var errorMessage = ''.obs;
+  final String emptyTitle = "😕 Maaf, belum ada data alat yang tersedia";
+  final String emptyDescription = "Admin belum menambahkan data alat untuk dipinjam";
 
   List<KategoriModel> get kategoriList {
     final map = <int, KategoriModel>{};

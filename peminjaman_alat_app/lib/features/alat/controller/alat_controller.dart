@@ -8,6 +8,8 @@ class AlatController extends GetxController {
   var errorMessage = ''.obs;
   var selectedKategori = <String>[].obs;
   var filteredAlatList = <AlatModel>[].obs;
+  final String emptyTitle = "😕 Maaf, belum ada data alat yang tersedia";
+  final String emptyDescription = "Admin belum menambahkan data alat untuk dipinjam";
 
   List<KategoriModel> get kategoriList {
     final map = <int, KategoriModel>{};
