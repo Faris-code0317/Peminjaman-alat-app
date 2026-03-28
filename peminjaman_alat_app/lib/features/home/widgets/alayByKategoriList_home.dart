@@ -126,7 +126,7 @@ class KategoriList extends StatelessWidget {
                       ),
                     SizedBox(height: 35,),
                     Text(
-                      "${alat.stok} Stok tersisa",
+                      "${alat.stok} Stok tersedia",
                       style: TextStyle(
                         fontSize: 12,
                         color: getStokColor(alat.stok)

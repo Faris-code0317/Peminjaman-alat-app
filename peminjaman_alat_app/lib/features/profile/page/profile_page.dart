@@ -47,8 +47,7 @@ class _ProfilePageState extends State<ProfilePage>
         );
        }
 
-      return Scaffold(
-        body: SingleChildScrollView(
+      return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 40),
             child: Column(
@@ -68,8 +67,7 @@ class _ProfilePageState extends State<ProfilePage>
               ],
             ),
           ),
-        ),
-      );
+        );
     });
   }
 }

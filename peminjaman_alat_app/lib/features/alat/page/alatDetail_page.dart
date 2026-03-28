@@ -69,163 +69,171 @@ class _alatDetail_pageState extends State<alatDetail_page> {
         )
       ),
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Stack(
-                  alignment: Alignment.topLeft,
-                  children: [
-                    Container(
-                      height: 350,
-                      decoration: BoxDecoration(
-                        color: AppColors.bgWhite,
-                        borderRadius: BorderRadius.circular(25),
-                        boxShadow: [
-                          BoxShadow(
-                              color: AppColors.black1.withOpacity(0.15),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                          ),
-                        ],
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: CachedNetworkImageProvider(getImageUrl(widget.gambar))
-                        )
-                      ),
-                    ),
-                  
-                    Container(
-                      margin: EdgeInsets.fromLTRB(15, 15, 0, 0),
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: AppColors.bgWhite,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.black1.withOpacity(0.08),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ]
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 3),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: backButton_widget()
-                        )
-                      ),
-                    )
-                  ],
-                ),
-                    
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 15),
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppColors.bgWhite,
-                    borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.black1.withOpacity(0.15),
-                        offset: Offset(0, 4),
-                        blurRadius: 10
-                      ),
-                    ]
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await alatController.fetchAlat();
+          },
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Stack(
+                    alignment: Alignment.topLeft,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 15, 0, 8),
-                        child: Text(
-                          widget.namaAlat,
-                          style: TextStyle(
-                            color: AppColors.black1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16
-                          ),
+                      Container(
+                        height: 350,
+                        decoration: BoxDecoration(
+                          color: AppColors.bgWhite,
+                          borderRadius: BorderRadius.circular(25),
+                          boxShadow: [
+                            BoxShadow(
+                                color: AppColors.black1.withOpacity(0.15),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                            ),
+                          ],
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: CachedNetworkImageProvider(
+                              getImageUrl(widget.gambar)
+                            )
+                          )
                         ),
                       ),
                     
-                      Text.rich(
-                        TextSpan(
-                          text: "Jenis / kategori Alat: ",
-                          style: TextStyle(
-                            color: Colors.grey[400]
-                          ),
-                          children: [
-                            TextSpan(
-                              text: widget.kategori,
-                              style: TextStyle(
-                                color: AppColors.green1,
-                                fontSize: 14
-                              ),
-                            )
+                      Container(
+                        margin: EdgeInsets.fromLTRB(15, 15, 0, 0),
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: AppColors.bgWhite,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.black1.withOpacity(0.08),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
                           ]
-                        )
-                      ),
-                    
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
-                        child: Text.rich(
-                          TextSpan(
-                            text: widget.stok.toString(),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 3),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: backButton_widget()
+                          )
+                        ),
+                      )
+                    ],
+                  ),
+                      
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 15),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: AppColors.bgWhite,
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black1.withOpacity(0.15),
+                          offset: Offset(0, 4),
+                          blurRadius: 10
+                        ),
+                      ]
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 15, 0, 8),
+                          child: Text(
+                            widget.namaAlat,
                             style: TextStyle(
-                              color: getStokColor(widget.stok)
+                              color: AppColors.black1,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16
+                            ),
+                          ),
+                        ),
+                      
+                        Text.rich(
+                          TextSpan(
+                            text: "Jenis / kategori Alat: ",
+                            style: TextStyle(
+                              color: Colors.grey[400]
                             ),
                             children: [
                               TextSpan(
-                                text: " Stok tersedia",
+                                text: widget.kategori,
                                 style: TextStyle(
-                                  color: getStokColor(widget.stok),
+                                  color: AppColors.green1,
                                   fontSize: 14
                                 ),
                               )
                             ]
                           )
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                Container(
-                  margin: EdgeInsets.only(bottom: 15),
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppColors.bgWhite,
-                    borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.black1.withOpacity(0.15),
-                        offset: Offset(0, 4),
-                        blurRadius: 10
-                      )
-                    ]
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        "Rekomendasi alat yang tersedia",
-                        style: TextStyle(
-                          color: AppColors.green1,
-                          fontSize: 18
+                      
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                          child: Text.rich(
+                            TextSpan(
+                              text: widget.stok.toString(),
+                              style: TextStyle(
+                                color: getStokColor(widget.stok)
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: " Stok tersedia",
+                                  style: TextStyle(
+                                    color: getStokColor(widget.stok),
+                                    fontSize: 14
+                                  ),
+                                )
+                              ]
+                            )
+                          ),
                         ),
-                      )
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                    
-                AlatListWidget(alatController: alatController),
-                    
-              ],
+          
+                  Container(
+                    margin: EdgeInsets.only(bottom: 15),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: AppColors.bgWhite,
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black1.withOpacity(0.15),
+                          offset: Offset(0, 4),
+                          blurRadius: 10
+                        )
+                      ]
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          "Rekomendasi alat yang tersedia",
+                          style: TextStyle(
+                            color: AppColors.green1,
+                            fontSize: 18
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                      
+                  AlatListWidget(alatController: alatController),
+                      
+                ],
+              ),
             ),
           ),
         ),

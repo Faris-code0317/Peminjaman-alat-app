@@ -60,5 +60,17 @@ class AlatController extends GetxController {
       isLoading(false);
     }
   }
+
+    Future<void> fetchAlat() async {
+    isLoading(true);
+
+    final results = await Future.wait([
+      AlatService.getAlat(),
+    ]);
+
+    alatList.assignAll(results[0] as List<AlatModel>);
+
+    isLoading(false);
+  }
 }
 

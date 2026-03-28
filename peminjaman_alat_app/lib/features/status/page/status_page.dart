@@ -66,15 +66,34 @@ class _StatusPageState extends State<StatusPage>
                 );
               }
 
-              if (controller.statusList.isEmpty) {
-                return EmptyWidget(
-                  title: controller.emptyTitle,
-                  description: controller.emptyDescription,
-                );
-              }
+              // if (controller.statusList.isEmpty) {
+              //   return EmptyWidget(
+              //     title: controller.emptyTitle,
+              //     description: controller.emptyDescription,
+              //   );
+              // }
 
-              return StatusListWidget();
-
+              return RefreshIndicator(
+                backgroundColor: AppColors.bgWhite,
+                color: AppColors.green1,
+                onRefresh: () async {
+                  await controller.fetchStatus(
+                    controller.statusTab[controller.selectedStatusIndex.value],
+                  );
+                },
+                child: controller.statusList.isEmpty
+                    ? ListView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        children: [
+                          SizedBox(height: 100),
+                          EmptyWidget(
+                            title: controller.emptyTitle,
+                            description: controller.emptyDescription,
+                          ),
+                        ],
+                      )
+                    : StatusListWidget(),
+              );
             }),
           )
         ],

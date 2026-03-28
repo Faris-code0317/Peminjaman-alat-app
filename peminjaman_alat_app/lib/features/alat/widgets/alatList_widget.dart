@@ -38,9 +38,12 @@ class AlatListWidget extends StatelessWidget {
 
           if(alatList.isEmpty){
             return Center(
-              child: EmptyWidget(
-                title: alatController.emptyTitle,
-                description:  alatController.emptyDescription,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 100),
+                child: EmptyWidget(
+                  title: alatController.emptyTitle,
+                  description:  alatController.emptyDescription,
+                ),
               )
             );
           }
@@ -123,7 +126,7 @@ class AlatListWidget extends StatelessWidget {
                         ),
                         SizedBox(height: 35,),
                         Text(
-                          "${alat.stok} Stok tersisa",
+                          "${alat.stok} Stok tersedia",
                           style: TextStyle(
                             fontSize: 12,
                             color: getStokColor(alat.stok),

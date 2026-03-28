@@ -63,13 +63,13 @@ class StatusListWidget extends StatelessWidget {
 
         final data = controller.statusList[index];
 
-        if (data.detail.isEmpty) {
-          return Container(
-            margin: const EdgeInsets.only(bottom: 15),
-            padding: const EdgeInsets.all(15),
-            child: const Text("Detail alat tidak tersedia"),
-          );
-        }
+        // if (data.detail.isEmpty) {
+        //   return Container(
+        //     margin: const EdgeInsets.only(bottom: 15),
+        //     padding: const EdgeInsets.all(15),
+        //     child: const Text("Detail alat tidak tersedia"),
+        //   );
+        // }
 
         final detail = data.detail.first;
         final alat = detail.alat;

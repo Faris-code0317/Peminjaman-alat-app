@@ -53,72 +53,80 @@ class _HomePageState extends State<HomePage>
               child: Text(Homecontroller.errorMessage.value),
             );
           }
-          return SingleChildScrollView(
-            controller: widget.scrollController,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  
-                  appBar_widget(user: user),
-              
-                  search_home(searchController: searchController),
-              
-                  HomeCarousel(),
-              
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Kategori",
-                          style: TextStyle(
-                            color: AppColors.green1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16
-                          ),
-                        ),
-              
-                        ElevatedButton(
-                          onPressed: (){
-                             Get.offAllNamed(AppRoutes.ALATLIST);
-                            // Navigator.push(
-                            //   context, 
-                            //   MaterialPageRoute(
-                            //     builder: (context) => AlatList(alatController: alatController),
-                            //   )
-                            // );
-                          }, 
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.bgLight1,
-                            padding: EdgeInsets.all(2),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadiusGeometry.circular(5)
-                            ),
-                            side: BorderSide(
-                              color: AppColors.green1
-                            )
-                          ),
-                          child: Text(
-                            "lihat semua",
+          return RefreshIndicator(
+            backgroundColor: AppColors.bgWhite,
+            color: AppColors.green1,
+            onRefresh: () async {
+              await Homecontroller.fetchHomeData();
+            },
+            child: SingleChildScrollView(
+              controller: widget.scrollController,
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    
+                    appBar_widget(user: user),
+                
+                    search_home(searchController: searchController),
+                
+                    HomeCarousel(),
+                
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Kategori",
                             style: TextStyle(
                               color: AppColors.green1,
-                              fontSize: 10
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16
                             ),
-                          )
-                        ),
-                    
-                      ],
-                    ), 
-                  ),
-              
-                  KategoriTab(),
-              
-                  KategoriList(homeController: Homecontroller),
-                ],
+                          ),
+                
+                          ElevatedButton(
+                            onPressed: (){
+                               Get.offAllNamed(AppRoutes.ALATLIST);
+                              // Navigator.push(
+                              //   context, 
+                              //   MaterialPageRoute(
+                              //     builder: (context) => AlatList(alatController: alatController),
+                              //   )
+                              // );
+                            }, 
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.bgLight1,
+                              padding: EdgeInsets.all(2),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadiusGeometry.circular(5)
+                              ),
+                              side: BorderSide(
+                                color: AppColors.green1
+                              )
+                            ),
+                            child: Text(
+                              "lihat semua",
+                              style: TextStyle(
+                                color: AppColors.green1,
+                                fontSize: 10
+                              ),
+                            )
+                          ),
+                      
+                        ],
+                      ), 
+                    ),
+                
+                    KategoriTab(),
+                
+                    KategoriList(homeController: Homecontroller),
+                  ],
+                ),
               ),
             ),
           );
